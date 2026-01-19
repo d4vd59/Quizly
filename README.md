@@ -21,7 +21,7 @@ Befolge diese Schritte, um das Projekt lokal auszuführen:
     * Visual Studio installieren (inklusive der Workload **.NET Desktop Development**).
 2.  **Repository klonen:**
     ```bash
-    git clone [https://github.com/DEIN_USERNAME/DEIN_REPO_NAME.git](https://github.com/DEIN_USERNAME/DEIN_REPO_NAME.git)
+    git clone [[https://github.com/d4vd59/Quizly.git](https://github.com/d4vd59/Quizly)](https://github.com/d4vd59/Quizly.git)
     ```
 3.  **Projekt öffnen:**
     * Öffne die `.sln`-Datei in Visual Studio.
