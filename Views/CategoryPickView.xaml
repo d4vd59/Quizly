@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="Quizly.Views.CategoryPickView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource Bg}">
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header: Back links -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Style="{StaticResource CircleButton}" Content="←" Click="Back_Click"/>
+
+            <TextBlock Grid.Column="1" Text="Wähle eine Kategorie"
+                       Foreground="{StaticResource White}"
+                       FontSize="30" FontWeight="Black"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- Content -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center"  Margin="0,14,0,0">
+
+            <Border Background="#33FFFFFF" CornerRadius="26" Height="96">
+                <Grid Margin="18">
+                    <TextBlock Text="Kategorie 1 (Demo)" Foreground="{StaticResource White}" FontSize="22" FontWeight="Black" VerticalAlignment="Center"/>
+                    <TextBlock Text="🏅" FontSize="26" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <Border Background="#33FFFFFF" CornerRadius="26" Height="96">
+                <Grid Margin="18">
+                    <TextBlock Text="Kategorie 2 (Demo)" Foreground="{StaticResource White}" FontSize="22" FontWeight="Black" VerticalAlignment="Center"/>
+                    <TextBlock Text="🎵" FontSize="26" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <Border Background="#33FFFFFF" CornerRadius="26" Height="96">
+                <Grid Margin="18">
+                    <TextBlock Text="Kategorie 3 (Demo)" Foreground="{StaticResource White}" FontSize="22" FontWeight="Black" VerticalAlignment="Center"/>
+                    <TextBlock Text="🕹" FontSize="26" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <Button Style="{StaticResource PillButton}" Background="{StaticResource Green}" Content="Weiter"
+                    Click="Continue_Click" Margin="0,10,0,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

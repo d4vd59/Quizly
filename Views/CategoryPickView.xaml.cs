@@ -2,11 +2,11 @@
 
 namespace Quizly.Views
 {
-    public partial class MatchmakingView : UserControl
+    public partial class CategoryPickView : UserControl
     {
         private readonly MainWindow _main;
 
-        public MatchmakingView(MainWindow main)
+        public CategoryPickView(MainWindow main)
         {
             InitializeComponent();
             _main = main;
@@ -14,13 +14,12 @@ namespace Quizly.Views
 
         private void Back_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _main.GoHome();
+            _main.NavigateTo(new DuelOverviewView(_main));
         }
 
-        private void Found_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Continue_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            // nach Matchmaking → Duel Overview
-            _main.NavigateTo(new DuelOverviewView(_main));
+            _main.NavigateTo(new QuestionView(_main));
         }
     }
 }

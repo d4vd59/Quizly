@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Quizly.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource Bg}">
+
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel VerticalAlignment="Center" Margin="16">
+
+            <Ellipse Width="160" Height="160" Fill="#22FFFFFF"/>
+
+            <TextBlock Text="Quizly"
+                       Foreground="{StaticResource White}"
+                       FontSize="44"
+                       FontWeight="Black"
+                       HorizontalAlignment="Center"/>
+
+            <Button Style="{StaticResource PillButton}"
+                    Background="{StaticResource Green}"
+                    Content="Einloggen"
+                    Click="Login_Click"/>
+
+            <TextBlock Text="ODER"
+                       Foreground="{StaticResource Muted}"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+
+            <Button Style="{StaticResource PillButton}"
+                    Background="#00000000"
+                    BorderBrush="{StaticResource White}"
+                    BorderThickness="2"
+                    Content="Neues Spielerkonto"
+                    Click="Register_Click"/>
+
+            <Button Style="{StaticResource PillButton}"
+                    Background="#00000000"
+                    BorderBrush="{StaticResource White}"
+                    BorderThickness="2"
+                    Content="Als Gast spielen"
+                    Click="Guest_Click"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Background="#00000000" BorderThickness="0" Foreground="{StaticResource White}"
+                    Content="Land/Sprache wählen"/>
+            <Button Grid.Column="1" Background="#00000000" BorderThickness="0" Foreground="{StaticResource White}"
+                    Content="Hilfe"/>
+        </Grid>
+    </Grid>
+</UserControl>
