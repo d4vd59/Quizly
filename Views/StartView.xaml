@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Quizly.Views.StartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#FF0F172A">
+
+    <Grid Margin="16">
+        <StackPanel VerticalAlignment="Center" Margin="16">
+
+            <TextBlock Text="QUIZLY"
+                       Foreground="White"
+                       FontSize="36"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+
+            <TextBlock Text="Quizduell-Style Oberfläche"
+                       Foreground="#94A3B8"
+                       FontSize="13"
+                       HorizontalAlignment="Center"/>
+
+            <Border Background="#111B33" CornerRadius="18" Padding="16" Margin="0,18,0,0">
+                <StackPanel Margin="12">
+
+                    <Button Content="Schnelles Spiel suchen"
+                            Height="56"
+                            Background="#60A5FA"
+                            Foreground="White"
+                            FontWeight="Bold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="QuickMatch_Click"/>
+
+                    <Button Content="Kategorie wählen"
+                            Height="56"
+                            Background="#1F2937"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="Category_Click"/>
+
+                    <Button Content="Rangliste"
+                            Height="56"
+                            Background="#1F2937"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="Leaderboard_Click"/>
+
+                    <Button Content="Direkt zur Frage (Demo)"
+                            Height="56"
+                            Background="#1F2937"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="Question_Click"/>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
