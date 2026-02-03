@@ -13,19 +13,7 @@ namespace Quizly.Views
 
         public void SetMain(MainWindow main) => _main = main;
 
-        private void Home_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            _main?.GoHome();
-        }
-
-        private void Friends_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            _main?.GoFriends();
-        }
-
-        private void Locked_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            // nur Demo – später echte Views
-        }
+        private void Home_Click(object sender, System.Windows.RoutedEventArgs e) => _main.GoHome();
+        private void Friends_Click(object sender, System.Windows.RoutedEventArgs e) => _main.GoFriends();
     }
 }

@@ -8,7 +8,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Header: Back links -->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -24,7 +23,6 @@
                        VerticalAlignment="Center"/>
         </Grid>
 
-        <!-- Content -->
         <StackPanel Grid.Row="1" VerticalAlignment="Center"  Margin="0,14,0,0">
 
             <Border Background="#33FFFFFF" CornerRadius="26" Height="96">

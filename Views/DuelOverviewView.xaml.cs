@@ -12,10 +12,7 @@ namespace Quizly.Views
             _main = main;
         }
 
-        private void Back_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            _main.NavigateTo(new HomeView(_main));
-        }
+        private void Back_Click(object sender, System.Windows.RoutedEventArgs e) => _main.GoHome();
 
         private void Play_Click(object sender, System.Windows.RoutedEventArgs e)
         {

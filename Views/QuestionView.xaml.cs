@@ -14,7 +14,7 @@ namespace Quizly.Views
 
         private void Back_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _main.NavigateTo(new DuelOverviewView(_main));
+            _main.NavigateTo(new CategoryPickView(_main));
         }
 
         private void Answer_Click(object sender, System.Windows.RoutedEventArgs e)

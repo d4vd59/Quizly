@@ -12,14 +12,10 @@ namespace Quizly.Views
             _main = main;
         }
 
-        private void Back_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            _main.GoHome();
-        }
+        private void Back_Click(object sender, System.Windows.RoutedEventArgs e) => _main.GoHome();
 
         private void Found_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            // nach Matchmaking → Duel Overview
             _main.NavigateTo(new DuelOverviewView(_main));
         }
     }

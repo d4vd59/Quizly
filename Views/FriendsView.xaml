@@ -9,13 +9,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Top -->
         <TextBlock Text="Freunde"
                    Foreground="{StaticResource White}"
                    FontSize="24" FontWeight="Black"
                    Margin="0,6,0,14"/>
 
-        <!-- Content -->
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -23,7 +21,6 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Search bar -->
             <Border Background="#33FFFFFF" CornerRadius="22" Padding="12" Grid.Row="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -31,8 +28,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="SearchBox"
-                             Background="#00FFFFFF"
+                    <TextBox Background="#00FFFFFF"
                              BorderThickness="0"
                              Foreground="White"
                              FontSize="16"
@@ -43,7 +39,6 @@
                 </Grid>
             </Border>
 
-            <!-- Invite button -->
             <Button Grid.Row="1"
                     Style="{StaticResource PillButton}"
                     Background="{StaticResource BlueBtn}"
@@ -51,7 +46,6 @@
                     Margin="0,14,0,0"
                     Click="Invite_Click"/>
 
-            <!-- Placeholder content -->
             <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0" >
                 <Ellipse Width="70" Height="70" Fill="#22FFFFFF"/>
                 <TextBlock Text="Lade deine Freunde zu einem Duell ein!"
@@ -63,11 +57,12 @@
                            TextAlignment="Center"/>
             </StackPanel>
 
-            <!-- Overlay Popup -->
+            <!-- Overlay Invite -->
             <Grid x:Name="InviteOverlay" Visibility="Collapsed">
                 <Border Background="#AA000000"/>
                 <Border Background="#EFFFFFFF" CornerRadius="22"
-                        Padding="18" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        Padding="18" Width="320"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Margin="14">
                         <TextBlock Text="Freunde einladen"
                                    FontSize="18"
@@ -75,7 +70,7 @@
                                    Foreground="#1E2A6A"
                                    TextAlignment="Center"/>
 
-                        <TextBlock Text="(Demo) Hier könntest du z.B. einen Code anzeigen oder per Link teilen."
+                        <TextBlock Text="(Demo) Später z.B. Code/Link anzeigen."
                                    Foreground="#4B5563"
                                    TextWrapping="Wrap"
                                    TextAlignment="Center"/>
@@ -87,7 +82,7 @@
                                 Click="InviteSend_Click"/>
 
                         <Button Style="{StaticResource PillButton}"
-                                Background="#FF2B2F6D"
+                                Background="{StaticResource DarkBtn}"
                                 Content="Schließen"
                                 Height="50"
                                 Click="CloseOverlay_Click"/>

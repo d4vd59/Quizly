@@ -10,7 +10,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
         <Grid Grid.Row="0" Margin="0,6,0,14">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -37,7 +36,7 @@
                            FontWeight="Black"
                            HorizontalAlignment="Center"/>
                 <ProgressBar Width="260" Height="10" IsIndeterminate="True"/>
-                <TextBlock Text="(Demo) Später kommt hier echte Server-Suche."
+                <TextBlock Text="(Demo) Später echte Server-Suche."
                            Foreground="{StaticResource Muted}"
                            TextAlignment="Center"/>
             </StackPanel>
