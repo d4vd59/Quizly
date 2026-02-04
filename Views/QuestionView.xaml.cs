@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 
+
 namespace Quizly.Views
 {
     public partial class QuestionView : UserControl
@@ -19,7 +20,21 @@ namespace Quizly.Views
 
         private void Answer_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _main.NavigateTo(new ResultView(_main));
+            // Runde abschließen
+            _main.CurrentGameState.CurrentRound++;
+
+            // Beispiel: Score aktualisieren (hier sollten Sie die tatsächliche Logik implementieren)
+            // _main.CurrentGameState.PlayerScore += 1;
+
+            // Prüfen ob alle 6 Runden gespielt wurden
+            if (_main.CurrentGameState.IsGameFinished())
+            {
+                _main.NavigateTo(new ResultView(_main));
+            }
+            else
+            {
+                _main.NavigateTo(new DuelOverviewView(_main));
+            }
         }
     }
 }

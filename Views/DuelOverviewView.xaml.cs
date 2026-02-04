@@ -10,6 +10,7 @@ namespace Quizly.Views
         {
             InitializeComponent();
             _main = main;
+            _main.ShowBottomBar(false);  // BottomBar ausblenden
         }
 
         private void Back_Click(object sender, System.Windows.RoutedEventArgs e) => _main.GoHome();

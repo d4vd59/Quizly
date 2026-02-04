@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Quizly.Views.DuelOverviewView"
+﻿<UserControl x:Class="Quizly.Views.SinglePlayerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="{StaticResource Bg}">
@@ -25,9 +25,9 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- "Du bist dran" Text -->
+            <!-- "Singleplayer Training" Text -->
             <TextBlock Grid.Row="0"
-                       Text="Du bist dran"
+                       Text="Singleplayer Training"
                        Foreground="#FFC857"
                        FontSize="22" 
                        FontWeight="Black"
@@ -43,16 +43,16 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Linker Spieler -->
+                <!-- Linker Spieler (Du) -->
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Ellipse Width="45" Height="45" Fill="#4DD4E8" Margin="0,0,0,3">
                         <Ellipse.Effect>
                             <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.4"/>
                         </Ellipse.Effect>
                     </Ellipse>
-                    <TextBlock Text="guest#25318401" 
+                    <TextBlock Text="Du" 
                                Foreground="{StaticResource White}" 
-                               FontSize="9"
+                               FontSize="11"
                                FontWeight="Bold"
                                HorizontalAlignment="Center"
                                x:Name="Player1Name"/>
@@ -60,7 +60,7 @@
 
                 <!-- Score in der Mitte -->
                 <TextBlock Grid.Column="1"
-                           Text="0  -  2"
+                           Text="0 / 18"
                            Foreground="{StaticResource White}"
                            FontSize="36" 
                            FontWeight="Black"
@@ -69,19 +69,17 @@
                            Margin="10,0"
                            x:Name="FinalScore"/>
 
-                <!-- Rechter Spieler -->
+                <!-- Rechts: Ziel-Punkte -->
                 <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Ellipse Width="45" Height="45" Fill="#FF8C42" Margin="0,0,0,3">
-                        <Ellipse.Effect>
-                            <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.4"/>
-                        </Ellipse.Effect>
-                    </Ellipse>
-                    <TextBlock Text="Fleetwater" 
-                               Foreground="{StaticResource White}" 
-                               FontSize="9"
-                               FontWeight="Bold"
+                    <TextBlock Text="🎯" 
+                               FontSize="32"
                                HorizontalAlignment="Center"
-                               x:Name="Player2Name"/>
+                               Margin="0,0,0,3"/>
+                    <TextBlock Text="Ziel" 
+                               Foreground="{StaticResource White}" 
+                               FontSize="11"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Grid>
@@ -89,7 +87,7 @@
         <!-- Runden-Übersicht ohne ScrollViewer -->
         <Viewbox Grid.Row="2" Stretch="Uniform">
             <StackPanel Width="450">
-                <!-- Runde 1: Computerspiele -->
+                <!-- Runde 1 -->
                 <Grid Margin="0,0,0,6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -97,37 +95,27 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Spieler 1 Ellipsen -->
+                    <!-- Spieler Ellipsen -->
                     <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" Margin="0,0,4,0" x:Name="R1Q1Player1">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" Margin="0,0,4,0" x:Name="R1Q2Player1">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" x:Name="R1Q3Player1">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
+                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5" x:Name="R1Q1"/>
+                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5" x:Name="R1Q2"/>
+                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Opacity="0.5" x:Name="R1Q3"/>
                     </StackPanel>
 
                     <!-- Icon + Text in der Mitte -->
                     <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0">
-                        <Border Background="#4D5B9E" 
+                        <Border Background="#1A2A5E" 
                                 Width="42" Height="42" 
                                 CornerRadius="21"
-                                Margin="0,0,0,2">
+                                Margin="0,0,0,2"
+                                Opacity="0.5"
+                                x:Name="R1Border">
                             <Border.Effect>
                                 <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.4"/>
                             </Border.Effect>
-                            <TextBlock Text="🕹" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="R1Icon"/>
+                            <TextBlock Text="1" FontSize="18" FontWeight="Black" Foreground="{StaticResource White}" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="R1Icon"/>
                         </Border>
-                        <TextBlock Text="Computerspiele" 
+                        <TextBlock Text="Runde 1" 
                                    Foreground="{StaticResource White}" 
                                    FontSize="9"
                                    FontWeight="SemiBold"
@@ -135,27 +123,18 @@
                                    x:Name="R1Category"/>
                     </StackPanel>
 
-                    <!-- Spieler 2 Ellipsen -->
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" Margin="0,0,4,0" x:Name="R1Q1Player2">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                        <Ellipse Width="28" Height="28" Fill="#4CAF50" Margin="0,0,4,0" x:Name="R1Q2Player2">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" x:Name="R1Q3Player2">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                    </StackPanel>
+                    <!-- Punkte rechts -->
+                    <TextBlock Grid.Column="2" 
+                               Text="0 / 3" 
+                               Foreground="{StaticResource Muted}"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               x:Name="R1Score"/>
                 </Grid>
 
-                <!-- Runde 2: TV-Serien -->
+                <!-- Runde 2 -->
                 <Grid Margin="0,0,0,6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -163,48 +142,20 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" Margin="0,0,4,0" x:Name="R2Q1Player1">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" Margin="0,0,4,0" x:Name="R2Q2Player1">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" x:Name="R2Q3Player1">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
+                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
+                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
+                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Opacity="0.5"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0">
-                        <Border Background="#4D5B9E" Width="42" Height="42" CornerRadius="21" Margin="0,0,0,2">
+                        <Border Background="#1A2A5E" Width="42" Height="42" CornerRadius="21" Margin="0,0,0,2" Opacity="0.5">
                             <Border.Effect>
                                 <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.4"/>
                             </Border.Effect>
-                            <TextBlock Text="📺" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="R2Icon"/>
+                            <TextBlock Text="2" FontSize="18" FontWeight="Black" Foreground="{StaticResource White}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <TextBlock Text="TV-Serien" Foreground="{StaticResource White}" FontSize="9" FontWeight="SemiBold" HorizontalAlignment="Center" x:Name="R2Category"/>
+                        <TextBlock Text="Runde 2" Foreground="{StaticResource White}" FontSize="9" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Ellipse Width="28" Height="28" Fill="#4CAF50" Margin="0,0,4,0" x:Name="R2Q1Player2">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" Margin="0,0,4,0" x:Name="R2Q2Player2">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                        <Ellipse Width="28" Height="28" Fill="#E91E63" x:Name="R2Q3Player2">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="1.5" Opacity="0.3"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                    </StackPanel>
+                    <TextBlock Grid.Column="2" Text="0 / 3" Foreground="{StaticResource Muted}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
 
                 <!-- Runde 3 -->
@@ -221,14 +172,14 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0">
                         <Border Background="#1A2A5E" Width="42" Height="42" CornerRadius="21" Margin="0,0,0,2" Opacity="0.5">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.4"/>
+                            </Border.Effect>
                             <TextBlock Text="3" Foreground="{StaticResource White}" FontSize="18" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <TextBlock Text="Runde 3" Foreground="{StaticResource White}" FontSize="9" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Opacity="0.5"/>
-                    </StackPanel>
+                    <TextBlock Grid.Column="2" Text="0 / 3" Foreground="{StaticResource Muted}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
 
                 <!-- Runde 4 -->
@@ -245,14 +196,14 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0">
                         <Border Background="#1A2A5E" Width="42" Height="42" CornerRadius="21" Margin="0,0,0,2" Opacity="0.5">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.4"/>
+                            </Border.Effect>
                             <TextBlock Text="4" Foreground="{StaticResource White}" FontSize="18" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <TextBlock Text="Runde 4" Foreground="{StaticResource White}" FontSize="9" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Opacity="0.5"/>
-                    </StackPanel>
+                    <TextBlock Grid.Column="2" Text="0 / 3" Foreground="{StaticResource Muted}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
 
                 <!-- Runde 5 -->
@@ -269,14 +220,14 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0">
                         <Border Background="#1A2A5E" Width="42" Height="42" CornerRadius="21" Margin="0,0,0,2" Opacity="0.5">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.4"/>
+                            </Border.Effect>
                             <TextBlock Text="5" Foreground="{StaticResource White}" FontSize="18" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <TextBlock Text="Runde 5" Foreground="{StaticResource White}" FontSize="9" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Opacity="0.5"/>
-                    </StackPanel>
+                    <TextBlock Grid.Column="2" Text="0 / 3" Foreground="{StaticResource Muted}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
 
                 <!-- Runde 6 -->
@@ -293,14 +244,14 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0">
                         <Border Background="#1A2A5E" Width="42" Height="42" CornerRadius="21" Margin="0,0,0,2" Opacity="0.5">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.4"/>
+                            </Border.Effect>
                             <TextBlock Text="6" Foreground="{StaticResource White}" FontSize="18" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <TextBlock Text="Runde 6" Foreground="{StaticResource White}" FontSize="9" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Margin="0,0,4,0" Opacity="0.5"/>
-                        <Ellipse Width="28" Height="28" Fill="#1A2A5E" Opacity="0.5"/>
-                    </StackPanel>
+                    <TextBlock Grid.Column="2" Text="0 / 3" Foreground="{StaticResource Muted}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </StackPanel>
         </Viewbox>

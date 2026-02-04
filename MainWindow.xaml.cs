@@ -5,10 +5,13 @@ namespace Quizly
 {
     public partial class MainWindow : Window
     {
+        public GameState CurrentGameState { get; private set; }
+
         public MainWindow()
         {
             InitializeComponent();
             BottomBar.SetMain(this);
+            CurrentGameState = new GameState();
 
             // Login ohne BottomBar
             ShowBottomBar(false);
@@ -24,13 +27,13 @@ namespace Quizly
 
         public void GoHome()
         {
-            ShowBottomBar(true);
+            ShowBottomBar(true);  // Nur hier BottomBar anzeigen
             NavigateTo(new HomeView(this));
         }
 
         public void GoFriends()
         {
-            ShowBottomBar(true);
+            ShowBottomBar(true);  // Nur hier BottomBar anzeigen
             NavigateTo(new FriendsView(this));
         }
 
@@ -38,6 +41,12 @@ namespace Quizly
         {
             ShowBottomBar(false);
             NavigateTo(new LoginView(this));
+        }
+
+        public void StartNewGame(string opponentName)
+        {
+            CurrentGameState.Reset();
+            CurrentGameState.OpponentName = opponentName;
         }
     }
 }

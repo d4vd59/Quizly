@@ -3,196 +3,256 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="{StaticResource Bg}">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Margin="16">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <!-- Header: "Quizly" -->
-            <TextBlock Grid.Row="0"
-                       Text="Quizly"
-                       Foreground="{StaticResource White}"
-                       FontSize="24" 
-                       FontWeight="Black"
-                       HorizontalAlignment="Center"
-                       Margin="0,8,0,12"/>
+                <!-- Header: "Quizly" mit Settings Button -->
+                <Grid Grid.Row="0" Margin="0,8,0,12">
+                    <!-- Settings Button links -->
+                    <Button HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource CircleButton}"
+                            Content="⚙"
+                            FontSize="20"
+                            Width="36"
+                            Height="36"
+                            Click="Settings_Click"
+                            x:Name="SettingsButton"/>
 
-            <!-- Eigener Avatar und Name -->
-            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,12">
-                <Ellipse Width="50" Height="50" Fill="#4DD4E8" Margin="0,0,0,6">
-                    <Ellipse.Effect>
-                        <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
-                    </Ellipse.Effect>
-                </Ellipse>
-                <TextBlock Text="guest#25318401" Foreground="{StaticResource White}" 
-                           FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" x:Name="CurrentUserName"/>
-            </StackPanel>
+                    <!-- Quizly Title zentriert -->
+                    <TextBlock Text="Quizly"
+                               Foreground="{StaticResource White}"
+                               FontSize="24" 
+                               FontWeight="Black"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Grid>
 
-            <!-- "Neues Spiel starten" Button -->
-            <Button Grid.Row="2"
-                    Style="{StaticResource PillButton}"
-                    Background="{StaticResource Green}"
-                    Content="Neues Spiel starten  +"
-                    Height="48"
-                    FontSize="16"
-                    FontWeight="Bold"
-                    Margin="0,0,0,16"
-                    Click="NewGame_Click"/>
+                <!-- Eigener Avatar und Name -->
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,12">
+                    <Ellipse Width="50" Height="50" Fill="#4DD4E8" Margin="0,0,0,6">
+                        <Ellipse.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+                    <TextBlock Text="guest#25318401" Foreground="{StaticResource White}" 
+                               FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" x:Name="CurrentUserName"/>
+                </StackPanel>
 
-            <!-- Spiele-Listen -->
-            <StackPanel Grid.Row="3">
-                <!-- "Du bist dran" -->
-                <TextBlock Text="Du bist dran" Foreground="#7DB8FF" FontSize="18" FontWeight="Bold" Margin="0,0,0,8"/>
+                <!-- "Neues Spiel starten" Button -->
+                <Button Grid.Row="2"
+                        Style="{StaticResource PillButton}"
+                        Background="{StaticResource Green}"
+                        Content="Neues Spiel starten  +"
+                        Height="48"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Margin="0,0,0,16"
+                        Click="NewGame_Click"/>
 
-                <!-- Grid für Karten (3 Spalten) -->
-                <WrapPanel x:Name="YourTurnList" Orientation="Horizontal" Margin="0,0,0,16">
-                    <!-- Karte 1 -->
-                    <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8" 
-                            Cursor="Hand" MouseLeftButtonDown="Game_Click" Tag="1">
-                        <StackPanel>
-                            <!-- Avatar -->
-                            <Ellipse Width="60" Height="60" Fill="#FF8C42" Margin="0,8,0,8">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
-                            <!-- Name -->
-                            <TextBlock Text="Franzi.250303" Foreground="{StaticResource White}" 
-                                       FontSize="12" FontWeight="Bold" TextAlignment="Center" 
-                                       TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
-                            <!-- Score -->
-                            <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
-                                <TextBlock Text="1 - 4" Foreground="{StaticResource White}" 
-                                           FontSize="16" FontWeight="Black" TextAlignment="Center"/>
-                            </Border>
-                            <!-- Button -->
-                            <Button Style="{StaticResource PillButton}" Background="{StaticResource Green}"
-                                    Content="Spielen" Height="32" FontSize="12" FontWeight="Bold"
-                                    Click="Play_Click" Tag="1"/>
-                        </StackPanel>
-                    </Border>
+                <!-- Spiele-Listen -->
+                <StackPanel Grid.Row="3">
+                    <!-- "Du bist dran" -->
+                    <TextBlock Text="Du bist dran" Foreground="#7DB8FF" FontSize="18" FontWeight="Bold" Margin="0,0,0,8"/>
 
-                    <!-- Karte 2 -->
-                    <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8" 
-                            Cursor="Hand" MouseLeftButtonDown="Game_Click" Tag="2">
-                        <StackPanel>
-                            <Ellipse Width="60" Height="60" Fill="#FF6B9D" Margin="0,8,0,8">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
-                            <TextBlock Text="Dickie1202" Foreground="{StaticResource White}" 
-                                       FontSize="12" FontWeight="Bold" TextAlignment="Center" 
-                                       TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
-                            <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
-                                <TextBlock Text="0 - 4" Foreground="{StaticResource White}" 
-                                           FontSize="16" FontWeight="Black" TextAlignment="Center"/>
-                            </Border>
-                            <Button Style="{StaticResource PillButton}" Background="{StaticResource Green}"
-                                    Content="Spielen" Height="32" FontSize="12" FontWeight="Bold"
-                                    Click="Play_Click" Tag="2"/>
-                        </StackPanel>
-                    </Border>
+                    <!-- Grid für Karten (3 Spalten) -->
+                    <WrapPanel x:Name="YourTurnList" Orientation="Horizontal" Margin="0,0,0,16">
+                        <!-- Karte 1 -->
+                        <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8" 
+                                Cursor="Hand" MouseLeftButtonDown="Game_Click" Tag="1">
+                            <StackPanel>
+                                <!-- Avatar -->
+                                <Ellipse Width="60" Height="60" Fill="#FF8C42" Margin="0,8,0,8">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <!-- Name -->
+                                <TextBlock Text="Franzi.250303" Foreground="{StaticResource White}" 
+                                           FontSize="12" FontWeight="Bold" TextAlignment="Center" 
+                                           TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+                                <!-- Score -->
+                                <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
+                                    <TextBlock Text="1 - 4" Foreground="{StaticResource White}" 
+                                               FontSize="16" FontWeight="Black" TextAlignment="Center"/>
+                                </Border>
+                                <!-- Button -->
+                                <Button Style="{StaticResource PillButton}" Background="{StaticResource Green}"
+                                        Content="Spielen" Height="32" FontSize="12" FontWeight="Bold"
+                                        Click="Play_Click" Tag="1"/>
+                            </StackPanel>
+                        </Border>
 
-                    <!-- Karte 3 -->
-                    <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8" 
-                            Cursor="Hand" MouseLeftButtonDown="Game_Click" Tag="3">
-                        <StackPanel>
-                            <Ellipse Width="60" Height="60" Fill="#7B68EE" Margin="0,8,0,8">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
-                            <TextBlock Text="Beliebiger Spieler" Foreground="{StaticResource White}" 
-                                       FontSize="12" FontWeight="Bold" TextAlignment="Center" 
-                                       TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
-                            <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
-                                <TextBlock Text="0 - 0" Foreground="{StaticResource White}" 
-                                           FontSize="16" FontWeight="Black" TextAlignment="Center"/>
-                            </Border>
-                            <Button Style="{StaticResource PillButton}" Background="{StaticResource Green}"
-                                    Content="Spielen" Height="32" FontSize="12" FontWeight="Bold"
-                                    Click="Play_Click" Tag="3"/>
-                        </StackPanel>
-                    </Border>
-                </WrapPanel>
+                        <!-- Karte 2 -->
+                        <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8" 
+                                Cursor="Hand" MouseLeftButtonDown="Game_Click" Tag="2">
+                            <StackPanel>
+                                <Ellipse Width="60" Height="60" Fill="#FF6B9D" Margin="0,8,0,8">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <TextBlock Text="Dickie1202" Foreground="{StaticResource White}" 
+                                           FontSize="12" FontWeight="Bold" TextAlignment="Center" 
+                                           TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+                                <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
+                                    <TextBlock Text="0 - 4" Foreground="{StaticResource White}" 
+                                               FontSize="16" FontWeight="Black" TextAlignment="Center"/>
+                                </Border>
+                                <Button Style="{StaticResource PillButton}" Background="{StaticResource Green}"
+                                        Content="Spielen" Height="32" FontSize="12" FontWeight="Bold"
+                                        Click="Play_Click" Tag="2"/>
+                            </StackPanel>
+                        </Border>
 
-                <!-- "Spielt" -->
-                <TextBlock Text="Spielt" Foreground="#7DB8FF" FontSize="18" FontWeight="Bold" Margin="0,0,0,8"/>
+                        <!-- Karte 3 -->
+                        <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8" 
+                                Cursor="Hand" MouseLeftButtonDown="Game_Click" Tag="3">
+                            <StackPanel>
+                                <Ellipse Width="60" Height="60" Fill="#7B68EE" Margin="0,8,0,8">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <TextBlock Text="Beliebiger Spieler" Foreground="{StaticResource White}" 
+                                           FontSize="12" FontWeight="Bold" TextAlignment="Center" 
+                                           TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+                                <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
+                                    <TextBlock Text="0 - 0" Foreground="{StaticResource White}" 
+                                               FontSize="16" FontWeight="Black" TextAlignment="Center"/>
+                                </Border>
+                                <Button Style="{StaticResource PillButton}" Background="{StaticResource Green}"
+                                        Content="Spielen" Height="32" FontSize="12" FontWeight="Bold"
+                                        Click="Play_Click" Tag="3"/>
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
 
-                <WrapPanel x:Name="OpponentTurnList" Orientation="Horizontal" Margin="0,0,0,16">
-                    <!-- Karte "Spielt" -->
-                    <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8" 
-                            Cursor="Hand" MouseLeftButtonDown="ViewGame_Click" Tag="4">
-                        <StackPanel>
-                            <Ellipse Width="60" Height="60" Fill="#4DD4E8" Margin="0,8,0,8">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
-                            <TextBlock Text="guest#97821195" Foreground="{StaticResource White}" 
-                                       FontSize="12" FontWeight="Bold" TextAlignment="Center" 
-                                       TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
-                            <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
-                                <TextBlock Text="2 - 1" Foreground="{StaticResource White}" 
-                                           FontSize="16" FontWeight="Black" TextAlignment="Center"/>
-                            </Border>
-                            <Button Style="{StaticResource PillButton}" Background="#EFFFFFFF"
-                                    Foreground="#4D5B9E" Content="Spielt" Height="32" FontSize="12" 
-                                    FontWeight="Bold" IsEnabled="False"/>
-                        </StackPanel>
-                    </Border>
+                    <!-- "Spielt" -->
+                    <TextBlock Text="Spielt" Foreground="#7DB8FF" FontSize="18" FontWeight="Bold" Margin="0,0,0,8"/>
 
-                    <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8">
-                        <StackPanel>
-                            <Ellipse Width="60" Height="60" Fill="#FF8C42" Margin="0,8,0,8">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
-                            <TextBlock Text="Fleetwater" Foreground="{StaticResource White}" 
-                                       FontSize="12" FontWeight="Bold" TextAlignment="Center" 
-                                       TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
-                            <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
-                                <TextBlock Text="1 - 2" Foreground="{StaticResource White}" 
-                                           FontSize="16" FontWeight="Black" TextAlignment="Center"/>
-                            </Border>
-                            <Button Style="{StaticResource PillButton}" Background="#EFFFFFFF"
-                                    Foreground="#4D5B9E" Content="Spielt" Height="32" FontSize="12" 
-                                    FontWeight="Bold" IsEnabled="False"/>
-                        </StackPanel>
-                    </Border>
-                </WrapPanel>
+                    <WrapPanel x:Name="OpponentTurnList" Orientation="Horizontal" Margin="0,0,0,16">
+                        <!-- Karte "Spielt" -->
+                        <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8" 
+                                Cursor="Hand" MouseLeftButtonDown="ViewGame_Click" Tag="4">
+                            <StackPanel>
+                                <Ellipse Width="60" Height="60" Fill="#4DD4E8" Margin="0,8,0,8">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <TextBlock Text="guest#97821195" Foreground="{StaticResource White}" 
+                                           FontSize="12" FontWeight="Bold" TextAlignment="Center" 
+                                           TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+                                <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
+                                    <TextBlock Text="2 - 1" Foreground="{StaticResource White}" 
+                                               FontSize="16" FontWeight="Black" TextAlignment="Center"/>
+                                </Border>
+                                <Button Style="{StaticResource PillButton}" Background="#EFFFFFFF"
+                                        Foreground="#4D5B9E" Content="Spielt" Height="32" FontSize="12" 
+                                        FontWeight="Bold" IsEnabled="False"/>
+                            </StackPanel>
+                        </Border>
 
-                <!-- "Beendet" -->
-                <TextBlock Text="Beendet" Foreground="#7DB8FF" FontSize="18" FontWeight="Bold" Margin="0,0,0,8"/>
+                        <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8">
+                            <StackPanel>
+                                <Ellipse Width="60" Height="60" Fill="#FF8C42" Margin="0,8,0,8">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <TextBlock Text="Fleetwater" Foreground="{StaticResource White}" 
+                                           FontSize="12" FontWeight="Bold" TextAlignment="Center" 
+                                           TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+                                <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
+                                    <TextBlock Text="1 - 2" Foreground="{StaticResource White}" 
+                                               FontSize="16" FontWeight="Black" TextAlignment="Center"/>
+                                </Border>
+                                <Button Style="{StaticResource PillButton}" Background="#EFFFFFFF"
+                                        Foreground="#4D5B9E" Content="Spielt" Height="32" FontSize="12" 
+                                        FontWeight="Bold" IsEnabled="False"/>
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
 
-                <WrapPanel x:Name="FinishedGamesList" Orientation="Horizontal">
-                    <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8">
-                        <StackPanel>
-                            <Ellipse Width="60" Height="60" Fill="#9B59B6" Margin="0,8,0,8">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
-                            <TextBlock Text="Player123" Foreground="{StaticResource White}" 
-                                       FontSize="12" FontWeight="Bold" TextAlignment="Center" 
-                                       TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
-                            <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
-                                <TextBlock Text="12 - 10" Foreground="{StaticResource White}" 
-                                           FontSize="16" FontWeight="Black" TextAlignment="Center"/>
-                            </Border>
-                            <Button Style="{StaticResource PillButton}" Background="#EFFFFFFF"
-                                    Foreground="#4D5B9E" Content="Ansehen" Height="32" FontSize="12" 
-                                    FontWeight="Bold" Click="ViewResult_Click" Tag="5"/>
-                        </StackPanel>
-                    </Border>
-                </WrapPanel>
-            </StackPanel>
-        </Grid>
-    </ScrollViewer>
+                    <!-- "Beendet" -->
+                    <TextBlock Text="Beendet" Foreground="#7DB8FF" FontSize="18" FontWeight="Bold" Margin="0,0,0,8"/>
+
+                    <WrapPanel x:Name="FinishedGamesList" Orientation="Horizontal">
+                        <Border Background="#4D5B9E" CornerRadius="20" Width="100" Padding="10" Margin="0,0,8,8">
+                            <StackPanel>
+                                <Ellipse Width="60" Height="60" Fill="#9B59B6" Margin="0,8,0,8">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <TextBlock Text="Player123" Foreground="{StaticResource White}" 
+                                           FontSize="12" FontWeight="Bold" TextAlignment="Center" 
+                                           TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+                                <Border Background="#3D4A8E" CornerRadius="12" Padding="8,4" Margin="0,0,0,8">
+                                    <TextBlock Text="12 - 10" Foreground="{StaticResource White}" 
+                                               FontSize="16" FontWeight="Black" TextAlignment="Center"/>
+                                </Border>
+                                <Button Style="{StaticResource PillButton}" Background="#EFFFFFFF"
+                                        Foreground="#4D5B9E" Content="Ansehen" Height="32" FontSize="12" 
+                                        FontWeight="Bold" Click="ViewResult_Click" Tag="5"/>
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Settings Popup -->
+        <Border x:Name="SettingsPopup"
+                Background="#CC000000"
+                Visibility="Collapsed"
+                MouseLeftButtonDown="ClosePopup_Click">
+            <Border Background="{StaticResource CardStrong}"
+                    CornerRadius="20"
+                    Width="250"
+                    Padding="20"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    MouseLeftButtonDown="PreventClose_Click">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="20" ShadowDepth="4" Opacity="0.5"/>
+                </Border.Effect>
+                <StackPanel>
+                    <!-- Header -->
+                    <Grid Margin="0,0,0,16">
+                        <TextBlock Text="⚙ Einstellungen"
+                                   Foreground="{StaticResource White}"
+                                   FontSize="20"
+                                   FontWeight="Black"
+                                   HorizontalAlignment="Center"/>
+                        <Button Content="✕"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Style="{StaticResource CircleButton}"
+                                Width="28"
+                                Height="28"
+                                FontSize="14"
+                                Click="ClosePopup_Click"/>
+                    </Grid>
+
+                    <!-- Logout Button -->
+                    <Button Style="{StaticResource PillButton}"
+                            Background="#E74C3C"
+                            Content="Ausloggen"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Height="40"
+                            Click="Logout_Click"/>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
 </UserControl>
