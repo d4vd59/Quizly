@@ -49,7 +49,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    
     <!-- ✅ Newtonsoft.Json hinzufügen -->
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -60,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensions\ProcessExtensions.cs" />
     <Compile Include="Views\BottomNavBar.xaml.cs">
       <DependentUpon>BottomNavBar.xaml</DependentUpon>
     </Compile>
@@ -188,6 +188,13 @@
     <Compile Include="Spielkonfiguration.cs" />
     <Compile Include="enums\Spielmodus.cs" />
     <Compile Include="enums\Spielstatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="python-backend\src\api\" />
+    <Folder Include="python-backend\src\models\" />
+    <Folder Include="python-backend\src\services\" />
+    <Folder Include="python-backend\src\utils\" />
+    <Folder Include="python-backend\tests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

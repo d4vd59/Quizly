@@ -5,6 +5,7 @@ using Newtonsoft.Json;           // ✅ Für Serialize
 using Newtonsoft.Json.Linq;      // ✅ Für JObject.Parse
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Quizly.Extensions;
 
 namespace Quizly
 {
@@ -47,22 +48,23 @@ namespace Quizly
                 CreateNoWindow = true
             };
 
-            using var process = Process.Start(startInfo);
-            
-            if (process == null)
-                throw new Exception("Python-Prozess konnte nicht gestartet werden");
-
-            string output = await process.StandardOutput.ReadToEndAsync();
-            string error = await process.StandardError.ReadToEndAsync();
-            
-            await process.WaitForExitAsync();
-
-            if (process.ExitCode != 0)
+            using (var process = Process.Start(startInfo))
             {
-                throw new Exception($"Python-Fehler: {error}");
-            }
+                if (process == null)
+                    throw new Exception("Python-Prozess konnte nicht gestartet werden");
 
-            return output;
+                string output = await process.StandardOutput.ReadToEndAsync();
+                string error = await process.StandardError.ReadToEndAsync();
+                
+                await process.WaitForExitAsync();
+
+                if (process.ExitCode != 0)
+                {
+                    throw new Exception($"Python-Fehler: {error}");
+                }
+
+                return output;
+            }
         }
 
         // ===== USER MANAGEMENT =====
