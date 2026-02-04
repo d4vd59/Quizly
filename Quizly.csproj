@@ -55,6 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Antwort.cs" />
+    <Compile Include="enums\Spielmodus.cs" />
+    <Compile Include="enums\Spielstatus.cs" />
+    <Compile Include="Frage.cs" />
+    <Compile Include="Kategorie.cs" />
+    <Compile Include="Runde.cs" />
+    <Compile Include="Schwierigkeitsgrad.cs" />
+    <Compile Include="Spiel.cs" />
+    <Compile Include="Spieler.cs" />
+    <Compile Include="Spielkonfiguration.cs" />
     <Compile Include="Views\BottomNavBar.xaml.cs">
       <DependentUpon>BottomNavBar.xaml</DependentUpon>
     </Compile>
