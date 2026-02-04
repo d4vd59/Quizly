@@ -1,6 +1,6 @@
 # 🧩 Quizly Desktop
 
-Das ist **Quizly**. Dies ist die native Desktop-Version der Quiz-App, entwickelt in **C#** und **Python**. Die App bietet dieselben Kernfunktionen wie die mobilen und Web-Versionen, optimiert für eine flüssige PC-Experience.
+Das ist **Quizly**. Die native Desktop-Version unserer Quiz-App, entwickelt in **C#** und **Python**. Die App bietet dieselben Kernfunktionen wie die mobilen und Web-Versionen, optimiert für eine flüssige PC-Experience.
 
 ---
 
@@ -9,7 +9,7 @@ Das ist **Quizly**. Dies ist die native Desktop-Version der Quiz-App, entwickelt
 * **Quiz spielen:** Volles Quiz-Erlebnis direkt auf dem Desktop.
 * **Echtzeit-Duelle:** Spannende Wettkämpfe über das integrierte Backend.
 * **Profile & Ranglisten:** Verfolge deinen Fortschritt und miss dich mit anderen.
-* **Interaktive UI:** Optimiert für Windows (WPF).
+* **Interaktives User Interface:** Optimiert für Windows (WPF).
 
 ---
 
