@@ -13,19 +13,18 @@ class APIClient:
     Einfacher Client für die externe Quizly API
     """
     
-    # BASE_URL NUR aus .env holen (kein Fallback mehr!)
     BASE_URL = os.getenv('API_BASE_URL')
     
     def __init__(self):
         """Initialisiert den API Client"""
-        # Prüfen ob BASE_URL gesetzt ist
+        
         if not self.BASE_URL:
             raise ValueError("API_BASE_URL nicht in .env Datei gefunden!")
         
         self.session = requests.Session()
         self.auth_token = None
     
-    # ===== USER MANAGEMENT =====
+    
     
     def signup(self, email, nickname, fullname, password):
         """
@@ -451,21 +450,284 @@ class APIClient:
         response = self.session.get(url, params=params, headers=self._auth_headers())
         return response.json()
     
-    def create_match(self, match_data):
+    # ===== GAMEPLAY - NEU! =====
+    
+    def create_match(self, player1_id, player2_id=None, game_mode_id=2, 
+                     category_ids=None, difficulty_level=1):
         """
-        Erstellt ein neues Spiel
+        Erstellt ein neues Match/Spiel
         
         Args:
-            match_data (dict): Spiel-Konfigurationsdaten
+            player1_id (int): ID des ersten Spielers
+            player2_id (int, optional): ID des zweiten Spielers (bei Duell)
+            game_mode_id (int): 1=Einzelspiel, 2=Duell (default: 2)
+            category_ids (list, optional): Liste von Kategorie-IDs
+            difficulty_level (int): Schwierigkeitsgrad (1-5, default: 1)
             
         Returns:
-            dict: Neu erstelltes Match-Objekt
+            dict: Neu erstelltes Match-Objekt mit match_id
             
+        Example:
+            >>> client.create_match(1, 2, game_mode_id=2, category_ids=[1,2,3])
+            {'match_id': 42, 'status': 'created', ...}
+        
         Note:
-            Die genaue Struktur von match_data muss noch spezifiziert werden
+            Basierend auf den Patterns der anderen Endpoints.
+            Endpoint ist VERMUTLICH: POST /api/v1/match
         """
         url = f"{self.BASE_URL}/match"
-        response = self.session.post(url, json=match_data, headers=self._auth_headers())
+        
+        data = {
+            "player1_id": player1_id,
+            "game_mode_id": game_mode_id,
+            "difficulty_level": difficulty_level
+        }
+        
+        if player2_id:
+            data["player2_id"] = player2_id
+        
+        if category_ids:
+            data["category_ids"] = category_ids
+        
+        response = self.session.post(url, json=data, headers=self._auth_headers())
+        return response.json()
+    
+    def get_match_details(self, match_id):
+        """
+        Holt Details zu einem bestimmten Match
+        
+        Args:
+            match_id (int): ID des Matches
+            
+        Returns:
+            dict: Match-Details (Spieler, Status, Runden, Punkte, etc.)
+            
+        Example:
+            >>> client.get_match_details(42)
+            {
+                'match_id': 42,
+                'player1': {...},
+                'player2': {...},
+                'current_round': 2,
+                'status': 'running',
+                ...
+            }
+        
+        Note:
+            VERMUTLICH: GET /api/v1/match/{match_id}
+        """
+        url = f"{self.BASE_URL}/match/{match_id}"
+        response = self.session.get(url, headers=self._auth_headers())
+        return response.json()
+    
+    def get_round_questions(self, match_id, round_number):
+        """
+        Holt die Fragen für eine bestimmte Runde
+        
+        Args:
+            match_id (int): ID des Matches
+            round_number (int): Rundennummer (1-6)
+            
+        Returns:
+            list: Array mit Fragen-Objekten
+            
+        Example:
+            >>> client.get_round_questions(42, 1)
+            [
+                {
+                    'question_id': 123,
+                    'text': 'Was ist die Hauptstadt von Deutschland?',
+                    'category': 'Geographie',
+                    'difficulty': 1,
+                    'answers': [
+                        {'answer_id': 1, 'text': 'Berlin'},
+                        {'answer_id': 2, 'text': 'Hamburg'},
+                        {'answer_id': 3, 'text': 'München'},
+                        {'answer_id': 4, 'text': 'Köln'}
+                    ]
+                },
+                ...
+            ]
+        
+        Note:
+            VERMUTLICH: GET /api/v1/match/{match_id}/round/{round_number}/questions
+        """
+        url = f"{self.BASE_URL}/match/{match_id}/round/{round_number}/questions"
+        response = self.session.get(url, headers=self._auth_headers())
+        return response.json()
+    
+    def submit_answer(self, match_id, question_id, answer_id, time_taken=None):
+        """
+        Reicht eine Antwort ein
+        
+        Args:
+            match_id (int): ID des Matches
+            question_id (int): ID der Frage
+            answer_id (int): ID der gewählten Antwort
+            time_taken (int, optional): Zeit in Sekunden
+            
+        Returns:
+            dict: Response mit Feedback (richtig/falsch, Punkte)
+            
+        Example:
+            >>> client.submit_answer(42, 123, 1, time_taken=15)
+            {
+                'correct': True,
+                'points_earned': 10,
+                'correct_answer_id': 1,
+                'message': 'Richtig!'
+            }
+        
+        Note:
+            VERMUTLICH: POST /api/v1/match/{match_id}/answer
+        """
+        url = f"{self.BASE_URL}/match/{match_id}/answer"
+        
+        data = {
+            "question_id": question_id,
+            "answer_id": answer_id
+        }
+        
+        if time_taken is not None:
+            data["time_taken"] = time_taken
+        
+        response = self.session.post(url, json=data, headers=self._auth_headers())
+        return response.json()
+    
+    def end_turn(self, match_id):
+        """
+        Beendet den aktuellen Zug/die aktuelle Runde
+        
+        Args:
+            match_id (int): ID des Matches
+            
+        Returns:
+            dict: Response mit Match-Status
+            
+        Example:
+            >>> client.end_turn(42)
+            {
+                'message': 'Turn ended',
+                'next_player': 'player2',
+                'match_status': 'waiting_for_opponent'
+            }
+        
+        Note:
+            VERMUTLICH: POST /api/v1/match/{match_id}/end_turn
+        """
+        url = f"{self.BASE_URL}/match/{match_id}/end_turn"
+        response = self.session.post(url, headers=self._auth_headers())
+        return response.json()
+    
+    def invite_friend(self, friend_email_or_id, message=None):
+        """
+        Lädt einen Freund zu einem Duell ein
+        
+        Args:
+            friend_email_or_id: Email oder User-ID des Freundes
+            message (str, optional): Persönliche Nachricht
+            
+        Returns:
+            dict: Response mit Einladungsstatus
+            
+        Example:
+            >>> client.invite_friend("friend@test.de", "Lass uns spielen!")
+            {
+                'message': 'Invitation sent',
+                'invite_id': 123
+            }
+        
+        Note:
+            VERMUTLICH: POST /api/v1/invite
+        """
+        url = f"{self.BASE_URL}/invite"
+        
+        data = {"friend": friend_email_or_id}
+        if message:
+            data["message"] = message
+        
+        response = self.session.post(url, json=data, headers=self._auth_headers())
+        return response.json()
+    
+    def accept_invite(self, invite_id):
+        """
+        Nimmt eine Einladung an
+        
+        Args:
+            invite_id (int): ID der Einladung
+            
+        Returns:
+            dict: Response mit Match-ID
+            
+        Example:
+            >>> client.accept_invite(123)
+            {
+                'message': 'Invitation accepted',
+                'match_id': 42
+            }
+        
+        Note:
+            VERMUTLICH: POST /api/v1/invite/{invite_id}/accept
+        """
+        url = f"{self.BASE_URL}/invite/{invite_id}/accept"
+        response = self.session.post(url, headers=self._auth_headers())
+        return response.json()
+    
+    def get_invites(self):
+        """
+        Holt alle offenen Einladungen
+        
+        Returns:
+            list: Array mit Einladungs-Objekten
+            
+        Example:
+            >>> client.get_invites()
+            [
+                {
+                    'invite_id': 123,
+                    'from_user': 'max',
+                    'message': 'Lass uns spielen!',
+                    'created_at': '...'
+                },
+                ...
+            ]
+        
+        Note:
+            VERMUTLICH: GET /api/v1/invite
+        """
+        url = f"{self.BASE_URL}/invite"
+        response = self.session.get(url, headers=self._auth_headers())
+        return response.json()
+    
+    def get_leaderboard(self, limit=10, period='all'):
+        """
+        Holt die Rangliste
+        
+        Args:
+            limit (int): Anzahl der Einträge (default: 10)
+            period (str): 'all', 'month', 'week' (default: 'all')
+            
+        Returns:
+            list: Array mit Ranglisten-Einträgen
+            
+        Example:
+            >>> client.get_leaderboard(limit=5, period='week')
+            [
+                {
+                    'rank': 1,
+                    'user': 'max',
+                    'points': 12500,
+                    'games_won': 42
+                },
+                ...
+            ]
+        
+        Note:
+            VERMUTLICH: GET /api/v1/leaderboard
+        """
+        url = f"{self.BASE_URL}/leaderboard"
+        params = {"limit": limit, "period": period}
+        response = self.session.get(url, params=params, headers=self._auth_headers())
         return response.json()
     
     # ===== HELPER METHODS =====
