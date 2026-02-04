@@ -1,9 +1,11 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text.Json;
+using Newtonsoft.Json;           // ✅ Für Serialize
+using Newtonsoft.Json.Linq;      // ✅ Für JObject.Parse
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Quizly.Extensions;
 
 namespace Quizly
 {
@@ -46,22 +48,23 @@ namespace Quizly
                 CreateNoWindow = true
             };
 
-            using var process = Process.Start(startInfo);
-            
-            if (process == null)
-                throw new Exception("Python-Prozess konnte nicht gestartet werden");
-
-            string output = await process.StandardOutput.ReadToEndAsync();
-            string error = await process.StandardError.ReadToEndAsync();
-            
-            await process.WaitForExitAsync();
-
-            if (process.ExitCode != 0)
+            using (var process = Process.Start(startInfo))
             {
-                throw new Exception($"Python-Fehler: {error}");
-            }
+                if (process == null)
+                    throw new Exception("Python-Prozess konnte nicht gestartet werden");
 
-            return output;
+                string output = await process.StandardOutput.ReadToEndAsync();
+                string error = await process.StandardError.ReadToEndAsync();
+                
+                await process.WaitForExitAsync();
+
+                if (process.ExitCode != 0)
+                {
+                    throw new Exception($"Python-Fehler: {error}");
+                }
+
+                return output;
+            }
         }
 
         // ===== USER MANAGEMENT =====
@@ -209,31 +212,31 @@ namespace Quizly
             return await RunPythonAsync("get_game_state", stateId.ToString());
         }
 
-        // ===== GAMEPLAY =====
+        // ===== GAMEPLAY - UPDATED! =====
 
         /// <summary>
-        /// Holt einen zufällig ausgewählten Benutzer (für Matchmaking)
+        /// Erstellt ein neues Single-Player-Spiel
         /// </summary>
-        public async Task<string> GetRandomUserAsync()
+        /// <param name="userId">User-ID</param>
+        /// <param name="difficulty">Schwierigkeitsgrad (1-5)</param>
+        /// <returns>JSON mit match_id</returns>
+        public async Task<string> CreateSingleMatchAsync(int userId, int difficulty)
         {
-            return await RunPythonAsync("get_random_user");
+            return await RunPythonAsync("create_single_match", userId.ToString(), difficulty.ToString());
         }
 
         /// <summary>
-        /// Holt Spiele eines Benutzers
+        /// Erstellt ein neues Multiplayer-Duell
         /// </summary>
-        /// <param name="user">User-ID, Nickname oder Email</param>
-        /// <param name="matchType">
-        /// 'all', 'running', 'running/single', 'running/duel', 
-        /// 'ended', 'ended/single', 'ended/duel'
-        /// </param>
-        /// <param name="limit">Optional: Begrenzt Anzahl der Ergebnisse</param>
-        public async Task<string> GetUserMatchesAsync(string user, string matchType = "all", int? limit = null)
+        /// <param name="userId">User-ID</param>
+        /// <param name="difficulty">Schwierigkeitsgrad (1-5)</param>
+        /// <param name="opponentIds">Liste der Gegner-IDs</param>
+        /// <returns>JSON mit match_id</returns>
+        public async Task<string> CreateDuelMatchAsync(int userId, int difficulty, System.Collections.Generic.List<int> opponentIds)
         {
-            if (limit.HasValue)
-                return await RunPythonAsync("get_user_matches", user, matchType, limit.Value.ToString());
-            
-            return await RunPythonAsync("get_user_matches", user, matchType);
+            // ✅ ÄNDERE: JsonSerializer → JsonConvert
+            var opponentsJson = JsonConvert.SerializeObject(opponentIds);
+            return await RunPythonAsync("create_duel_match", userId.ToString(), difficulty.ToString(), opponentsJson);
         }
 
         // ===== AVATAR MANAGEMENT =====
@@ -270,9 +273,14 @@ namespace Quizly
             try
             {
                 string json = await GetAvatarJsonAsync(user);
-                var doc = JsonDocument.Parse(json);
                 
-                string base64Data = doc.RootElement.GetProperty("avatar").GetString();
+                // ✅ ÄNDERE: JsonDocument → JObject
+                var jObj = JObject.Parse(json);
+                string base64Data = jObj["avatar"]?.ToString();
+                
+                if (string.IsNullOrEmpty(base64Data))
+                    throw new Exception("Kein Avatar gefunden");
+                
                 byte[] imageBytes = Convert.FromBase64String(base64Data);
 
                 var bitmap = new BitmapImage();
@@ -282,7 +290,7 @@ namespace Quizly
                     bitmap.CacheOption = BitmapCacheOption.OnLoad;
                     bitmap.StreamSource = stream;
                     bitmap.EndInit();
-                    bitmap.Freeze(); // Wichtig für UI-Thread
+                    bitmap.Freeze();
                 }
 
                 return bitmap;

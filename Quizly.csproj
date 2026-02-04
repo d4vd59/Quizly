@@ -49,12 +49,17 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <!-- ✅ Newtonsoft.Json hinzufügen -->
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensions\ProcessExtensions.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Views\BottomNavBar.xaml.cs">
       <DependentUpon>BottomNavBar.xaml</DependentUpon>
@@ -179,6 +184,32 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <!-- ✅ Python Backend automatisch kopieren -->
+    <None Include="python-backend\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>python-backend\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PythonBackend.cs" />
+    <Compile Include="Spieler.cs" />
+    <Compile Include="Kategorie.cs" />
+    <Compile Include="Schwierigkeitsgrad.cs" />
+    <Compile Include="Frage.cs" />
+    <Compile Include="Antwort.cs" />
+    <Compile Include="Spiel.cs" />
+    <Compile Include="Runde.cs" />
+    <Compile Include="Spielkonfiguration.cs" />
+    <Compile Include="enums\Spielmodus.cs" />
+    <Compile Include="enums\Spielstatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="python-backend\src\api\" />
+    <Folder Include="python-backend\src\models\" />
+    <Folder Include="python-backend\src\services\" />
+    <Folder Include="python-backend\src\utils\" />
+    <Folder Include="python-backend\tests\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

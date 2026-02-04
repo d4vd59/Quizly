@@ -367,3 +367,6 @@ FodyWeavers.xsd
 .env.*
 venv/
 .env/
+
+# Python Backend - Auth Token (NIEMALS committen!)
+python-backend/src/.auth_token
