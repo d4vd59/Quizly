@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Quizly
 {
@@ -81,6 +83,31 @@ namespace Quizly
         }
 
         /// <summary>
+        /// Loggt einen Benutzer aus
+        /// </summary>
+        public async Task<string> SignoutAsync(string user)
+        {
+            return await RunPythonAsync("signout", user);
+        }
+
+        /// <summary>
+        /// Aktualisiert User-Profil
+        /// </summary>
+        /// <param name="user">User-ID, Nickname oder Email</param>
+        /// <param name="currentPassword">Aktuelles Passwort (Pflicht!)</param>
+        /// <param name="updates">Key=Value Paare für Updates (z.B. "nickname=newname")</param>
+        public async Task<string> UpdateUserAsync(string user, string currentPassword, params string[] updates)
+        {
+            var args = new string[3 + updates.Length];
+            args[0] = "update_user";
+            args[1] = user;
+            args[2] = currentPassword;
+            Array.Copy(updates, 0, args, 3, updates.Length);
+            
+            return await RunPythonAsync(args);
+        }
+
+        /// <summary>
         /// Holt Liste aller User
         /// </summary>
         public async Task<string> GetUsersAsync()
@@ -101,8 +128,12 @@ namespace Quizly
         /// <summary>
         /// Holt alle Kategorien
         /// </summary>
-        public async Task<string> GetCategoriesAsync()
+        /// <param name="number">Optional: Anzahl zufällig ausgewählter Kategorien</param>
+        public async Task<string> GetCategoriesAsync(int? number = null)
         {
+            if (number.HasValue)
+                return await RunPythonAsync("get_categories", number.Value.ToString());
+            
             return await RunPythonAsync("get_categories");
         }
 
@@ -141,69 +172,125 @@ namespace Quizly
         {
             return await RunPythonAsync("get_settings");
         }
-    }
 
-    // ===== BEISPIEL-VERWENDUNG =====
-    
-    /* 
-    // In deinem MainWindow.xaml.cs oder einer anderen Klasse:
-    
-    public partial class MainWindow : Window
-    {
-        private PythonBackend backend;
+        // ===== GAME MODES =====
 
-        public MainWindow()
+        /// <summary>
+        /// Holt alle verfügbaren Spiel-Modi
+        /// </summary>
+        public async Task<string> GetGameModesAsync()
         {
-            InitializeComponent();
-            backend = new PythonBackend();
+            return await RunPythonAsync("get_game_modes");
         }
 
-        private async void LoadCategories_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Holt einen spezifischen Game-Mode
+        /// </summary>
+        public async Task<string> GetGameModeAsync(int modeId)
+        {
+            return await RunPythonAsync("get_game_mode", modeId.ToString());
+        }
+
+        // ===== GAME STATES =====
+
+        /// <summary>
+        /// Holt alle verfügbaren Spiel-Zustände
+        /// </summary>
+        public async Task<string> GetGameStatesAsync()
+        {
+            return await RunPythonAsync("get_game_states");
+        }
+
+        /// <summary>
+        /// Holt einen spezifischen Game-State
+        /// </summary>
+        public async Task<string> GetGameStateAsync(int stateId)
+        {
+            return await RunPythonAsync("get_game_state", stateId.ToString());
+        }
+
+        // ===== GAMEPLAY =====
+
+        /// <summary>
+        /// Holt einen zufällig ausgewählten Benutzer (für Matchmaking)
+        /// </summary>
+        public async Task<string> GetRandomUserAsync()
+        {
+            return await RunPythonAsync("get_random_user");
+        }
+
+        /// <summary>
+        /// Holt Spiele eines Benutzers
+        /// </summary>
+        /// <param name="user">User-ID, Nickname oder Email</param>
+        /// <param name="matchType">
+        /// 'all', 'running', 'running/single', 'running/duel', 
+        /// 'ended', 'ended/single', 'ended/duel'
+        /// </param>
+        /// <param name="limit">Optional: Begrenzt Anzahl der Ergebnisse</param>
+        public async Task<string> GetUserMatchesAsync(string user, string matchType = "all", int? limit = null)
+        {
+            if (limit.HasValue)
+                return await RunPythonAsync("get_user_matches", user, matchType, limit.Value.ToString());
+            
+            return await RunPythonAsync("get_user_matches", user, matchType);
+        }
+
+        // ===== AVATAR MANAGEMENT =====
+
+        /// <summary>
+        /// Lädt einen Avatar hoch (aus lokalem Dateipfad)
+        /// </summary>
+        /// <param name="user">User-ID, Nickname oder Email</param>
+        /// <param name="imagePath">Pfad zur Bilddatei</param>
+        public async Task<string> UploadAvatarAsync(string user, string imagePath)
+        {
+            if (!File.Exists(imagePath))
+                throw new FileNotFoundException($"Bild nicht gefunden: {imagePath}");
+
+            return await RunPythonAsync("upload_avatar", user, imagePath);
+        }
+
+        /// <summary>
+        /// Lädt Avatar herunter als Base64-JSON
+        /// </summary>
+        /// <param name="user">User-ID, Nickname oder Email</param>
+        public async Task<string> GetAvatarJsonAsync(string user)
+        {
+            return await RunPythonAsync("get_avatar", user, "json");
+        }
+
+        /// <summary>
+        /// Lädt Avatar herunter und konvertiert zu BitmapImage
+        /// </summary>
+        /// <param name="user">User-ID, Nickname oder Email</param>
+        /// <returns>BitmapImage für WPF Image-Control</returns>
+        public async Task<BitmapImage> GetAvatarImageAsync(string user)
         {
             try
             {
-                // Kategorien von Python Backend holen
-                string json = await backend.GetCategoriesAsync();
-                
-                // JSON parsen
+                string json = await GetAvatarJsonAsync(user);
                 var doc = JsonDocument.Parse(json);
                 
-                // Kategorien anzeigen
-                foreach (var category in doc.RootElement.EnumerateArray())
-                {
-                    int id = category.GetProperty("id").GetInt32();
-                    string name = category.GetProperty("name").GetString();
-                    
-                    Console.WriteLine($"Kategorie {id}: {name}");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fehler: {ex.Message}");
-            }
-        }
+                string base64Data = doc.RootElement.GetProperty("avatar").GetString();
+                byte[] imageBytes = Convert.FromBase64String(base64Data);
 
-        private async void Signup_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                string result = await backend.SignupAsync(
-                    "test@test.de",
-                    "nickname",
-                    "Max Mustermann",
-                    "Pass123"
-                );
-                
-                var doc = JsonDocument.Parse(result);
-                string message = doc.RootElement.GetProperty("Message").GetString();
-                
-                MessageBox.Show(message);
+                var bitmap = new BitmapImage();
+                using (var stream = new MemoryStream(imageBytes))
+                {
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = stream;
+                    bitmap.EndInit();
+                    bitmap.Freeze(); // Wichtig für UI-Thread
+                }
+
+                return bitmap;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehler: {ex.Message}");
+                throw new Exception($"Fehler beim Laden des Avatars: {ex.Message}");
             }
         }
     }
-    */
 }
