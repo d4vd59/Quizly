@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    
+    <!-- ✅ PythonBackend.cs hinzufügen -->
+    <Compile Include="PythonBackend.cs" />
+    
     <Compile Include="Views\BottomNavBar.xaml.cs">
       <DependentUpon>BottomNavBar.xaml</DependentUpon>
     </Compile>
@@ -164,6 +168,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <!-- ✅ Python Backend automatisch kopieren -->
+    <None Include="python-backend\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>python-backend\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

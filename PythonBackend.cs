@@ -1,7 +1,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text.Json;
+using Newtonsoft.Json;           // ✅ Für Serialize
+using Newtonsoft.Json.Linq;      // ✅ Für JObject.Parse
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
@@ -231,7 +232,8 @@ namespace Quizly
         /// <returns>JSON mit match_id</returns>
         public async Task<string> CreateDuelMatchAsync(int userId, int difficulty, System.Collections.Generic.List<int> opponentIds)
         {
-            var opponentsJson = JsonSerializer.Serialize(opponentIds);
+            // ✅ ÄNDERE: JsonSerializer → JsonConvert
+            var opponentsJson = JsonConvert.SerializeObject(opponentIds);
             return await RunPythonAsync("create_duel_match", userId.ToString(), difficulty.ToString(), opponentsJson);
         }
 
@@ -269,9 +271,14 @@ namespace Quizly
             try
             {
                 string json = await GetAvatarJsonAsync(user);
-                var doc = JsonDocument.Parse(json);
                 
-                string base64Data = doc.RootElement.GetProperty("avatar").GetString();
+                // ✅ ÄNDERE: JsonDocument → JObject
+                var jObj = JObject.Parse(json);
+                string base64Data = jObj["avatar"]?.ToString();
+                
+                if (string.IsNullOrEmpty(base64Data))
+                    throw new Exception("Kein Avatar gefunden");
+                
                 byte[] imageBytes = Convert.FromBase64String(base64Data);
 
                 var bitmap = new BitmapImage();
@@ -281,7 +288,7 @@ namespace Quizly
                     bitmap.CacheOption = BitmapCacheOption.OnLoad;
                     bitmap.StreamSource = stream;
                     bitmap.EndInit();
-                    bitmap.Freeze(); // Wichtig für UI-Thread
+                    bitmap.Freeze();
                 }
 
                 return bitmap;
