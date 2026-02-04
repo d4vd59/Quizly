@@ -55,10 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    
-    <!-- ✅ PythonBackend.cs hinzufügen -->
-    <Compile Include="PythonBackend.cs" />
-    
     <Compile Include="Views\BottomNavBar.xaml.cs">
       <DependentUpon>BottomNavBar.xaml</DependentUpon>
     </Compile>
