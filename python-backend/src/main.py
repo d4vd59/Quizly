@@ -216,21 +216,32 @@ def main():
             result = client.get_avatar(user, avatar_type)
             print(json.dumps(result))
         
-        # ===== GAMEPLAY - NEU! =====
+        # ===== GAMEPLAY - UPDATED! =====
         
-        elif command == "create_match":
-            # create_match <player1_id> [player2_id] [game_mode_id] [category_ids] [difficulty]
-            if len(sys.argv) < 3:
-                print(json.dumps({"error": "create_match benötigt: player1_id [player2_id] [game_mode_id] [category_ids] [difficulty]"}))
+        elif command == "create_single_match":
+            # create_single_match <user_id> <difficulty>
+            if len(sys.argv) < 4:
+                print(json.dumps({"error": "create_single_match benötigt: user_id difficulty"}))
                 return
             
-            player1_id = int(sys.argv[2])
-            player2_id = int(sys.argv[3]) if len(sys.argv) > 3 else None
-            game_mode_id = int(sys.argv[4]) if len(sys.argv) > 4 else 2
-            category_ids = json.loads(sys.argv[5]) if len(sys.argv) > 5 else None
-            difficulty = int(sys.argv[6]) if len(sys.argv) > 6 else 1
+            user_id = int(sys.argv[2])
+            difficulty = int(sys.argv[3])
             
-            result = client.create_match(player1_id, player2_id, game_mode_id, category_ids, difficulty)
+            result = client.create_single_match(user_id, difficulty)
+            print(json.dumps(result))
+        
+        elif command == "create_duel_match":
+            # create_duel_match <user_id> <difficulty> <opponent_ids>
+            # Beispiel: create_duel_match 16 3 "[1,2,3]"
+            if len(sys.argv) < 5:
+                print(json.dumps({"error": "create_duel_match benötigt: user_id difficulty opponent_ids"}))
+                return
+            
+            user_id = int(sys.argv[2])
+            difficulty = int(sys.argv[3])
+            opponent_ids = json.loads(sys.argv[4])  # "[1,2,3]" -> [1,2,3]
+            
+            result = client.create_duel_match(user_id, difficulty, opponent_ids)
             print(json.dumps(result))
         
         elif command == "get_match_details":
