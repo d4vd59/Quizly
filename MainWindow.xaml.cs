@@ -48,5 +48,23 @@ namespace Quizly
             CurrentGameState.Reset();
             CurrentGameState.OpponentName = opponentName;
         }
+
+        // ✅ Singleplayer starten
+        public void StartSinglePlayer()
+        {
+            CurrentGameState.Reset();
+            CurrentGameState.IsSinglePlayer = true;
+            CurrentGameState.OpponentName = "Singleplayer";
+            NavigateTo(new SinglePlayerView(this));
+        }
+
+        // ✅ NEU: Multiplayer starten
+        public void StartMultiplayer(string opponentName)
+        {
+            CurrentGameState.Reset();
+            CurrentGameState.IsSinglePlayer = false;  // ✅ WICHTIG!
+            CurrentGameState.OpponentName = opponentName;
+            NavigateTo(new DuelOverviewView(this));
+        }
     }
 }

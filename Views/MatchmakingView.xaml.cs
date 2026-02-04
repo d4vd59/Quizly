@@ -16,7 +16,8 @@ namespace Quizly.Views
 
         private void Found_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _main.NavigateTo(new DuelOverviewView(_main));
+            // ✅ GEÄNDERT: Multiplayer korrekt starten
+            _main.StartMultiplayer("Gegner123");  // Hier später echten Gegnernamen einfügen
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Quizly.Views
 {
@@ -12,6 +13,7 @@ namespace Quizly.Views
             _main = main;
             _main.ShowBottomBar(false);  // BottomBar ausblenden
 
+            // ✅ Einfache GUI-Initialisierung
             UpdateDisplay();
         }
 
@@ -19,22 +21,13 @@ namespace Quizly.Views
         {
             var gameState = _main.CurrentGameState;
 
-            // Score aktualisieren (Spieler Punkte / Maximum 18 Punkte)
+            // Score anzeigen (z.B. "3 / 18")
             FinalScore.Text = $"{gameState.PlayerScore} / 18";
 
-            // Runden-Status aktualisieren basierend auf CurrentRound
-            UpdateRoundDisplay(gameState.CurrentRound);
-        }
-
-        private void UpdateRoundDisplay(int currentRound)
-        {
-            // Hier können Sie die Runden visuell aktualisieren
-            // Beispiel: Runde 1 aktivieren wenn currentRound >= 1
-            if (currentRound >= 1)
-            {
-                R1Border.Opacity = 1.0;
-                R1Border.Background = (System.Windows.Media.Brush)FindResource("CardStrong");
-            }
+            // Optional: Status-Text aktualisieren
+            StatusText.Text = gameState.CurrentRound == 0 
+                ? "Singleplayer Training" 
+                : $"Runde {gameState.CurrentRound} abgeschlossen!";
         }
 
         private void Back_Click(object sender, System.Windows.RoutedEventArgs e)

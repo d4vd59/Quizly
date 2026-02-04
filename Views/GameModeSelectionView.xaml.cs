@@ -42,9 +42,8 @@ namespace Quizly.Views
 
         private void Singleplayer_Click(object sender, MouseButtonEventArgs e)
         {
-            // Singleplayer: Direkt zur SinglePlayer-Übersicht
-            _main.StartNewGame("KI");
-            _main.NavigateTo(new SinglePlayerView(_main));
+            // ✅ GEÄNDERT: Nutze neue Methode
+            _main.StartSinglePlayer();
         }
     }
 }

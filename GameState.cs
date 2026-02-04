@@ -13,6 +13,7 @@ namespace Quizly
         public int PlayerScore { get; set; }
         public int OpponentScore { get; set; }
         public string OpponentName { get; set; }
+        public bool IsSinglePlayer { get; set; }  // ✅ NEU
 
         public void Reset()
         {
@@ -20,6 +21,7 @@ namespace Quizly
             PlayerScore = 0;
             OpponentScore = 0;
             OpponentName = string.Empty;
+            IsSinglePlayer = false;  // ✅ NEU
         }
 
         public bool IsGameFinished()

@@ -19,16 +19,19 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Header mit Zurück-Button -->
+        <!-- Header mit Zurück-Button (ausgeblendet) -->
         <Grid Grid.Row="0" Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Style="{StaticResource CircleButton}" 
+            <!-- ✅ GEÄNDERT: Zurück-Button ausgeblendet + Name hinzugefügt -->
+            <Button x:Name="BackButton"
+                    Style="{StaticResource CircleButton}" 
                     Content="←" 
-                    Click="Back_Click"/>
+                    Click="Back_Click"
+                    Visibility="Collapsed"/>
 
             <TextBlock Grid.Column="1" 
                        Text="Wähle eine Kategorie"

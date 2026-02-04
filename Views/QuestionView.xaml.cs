@@ -26,14 +26,25 @@ namespace Quizly.Views
             // Beispiel: Score aktualisieren (hier sollten Sie die tatsächliche Logik implementieren)
             // _main.CurrentGameState.PlayerScore += 1;
 
-            // Prüfen ob alle 6 Runden gespielt wurden
+            // ✅ NEU: Prüfen ob Singleplayer oder Multiplayer
             if (_main.CurrentGameState.IsGameFinished())
             {
+                // Spiel ist zu Ende
                 _main.NavigateTo(new ResultView(_main));
             }
             else
             {
-                _main.NavigateTo(new DuelOverviewView(_main));
+                // ✅ GEÄNDERT: Zur richtigen Overview navigieren
+                if (_main.CurrentGameState.IsSinglePlayer)
+                {
+                    // Singleplayer → zurück zu SinglePlayerView
+                    _main.NavigateTo(new SinglePlayerView(_main));
+                }
+                else
+                {
+                    // Multiplayer → zurück zu DuelOverviewView
+                    _main.NavigateTo(new DuelOverviewView(_main));
+                }
             }
         }
     }

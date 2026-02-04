@@ -129,7 +129,8 @@ namespace Quizly.Views
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            _main.NavigateTo(new DuelOverviewView(_main));
+            // ✅ Leer gelassen - Zurück-Navigation nicht erlaubt
+            // Der Button ist sowieso ausgeblendet (Visibility="Collapsed")
         }
     }
 
