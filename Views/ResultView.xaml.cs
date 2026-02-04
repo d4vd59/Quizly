@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace Quizly.Views
 {
@@ -8,13 +9,18 @@ namespace Quizly.Views
 
         public ResultView(MainWindow main)
         {
-            InitializeComponent();
+            //InitializeComponent(); 
             _main = main;
         }
 
-        private void Next_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Back_Click(object sender, RoutedEventArgs e)
         {
             _main.NavigateTo(new DuelOverviewView(_main));
+        }
+
+        private void PlayAgain_Click(object sender, RoutedEventArgs e)
+        {
+            _main.NavigateTo(new CategoryPickView(_main));
         }
     }
 }

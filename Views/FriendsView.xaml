@@ -6,15 +6,39 @@
     <Grid Margin="18">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Freunde"
+        <!-- Überschrift "Freunde" -->
+        <TextBlock Grid.Row="0"
+                   Text="Freunde"
                    Foreground="{StaticResource White}"
-                   FontSize="24" FontWeight="Black"
+                   FontSize="24" 
+                   FontWeight="Black"
                    Margin="0,6,0,14"/>
 
-        <Grid Grid.Row="1">
+        <!-- Avatar und Benutzername in der Mitte -->
+        <StackPanel Grid.Row="1" 
+                    HorizontalAlignment="Center"
+                    Margin="0,10,0,20">
+            <Ellipse Width="70" Height="70" 
+                     Fill="#4DD4E8" 
+                     Margin="0,0,0,10">
+                <Ellipse.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <TextBlock Text="guest#25318401" 
+                       Foreground="{StaticResource White}" 
+                       FontSize="16"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       x:Name="CurrentUserName"/>
+        </StackPanel>
+
+        <!-- Suchbalken und Freundesliste -->
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -28,14 +52,39 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
+                    <!-- TextBox mit Placeholder -->
                     <TextBox Background="#00FFFFFF"
                              BorderThickness="0"
                              Foreground="White"
                              FontSize="16"
-                             Text="Freundesliste"
-                             Opacity="0.9"/>
+                             x:Name="SearchTextBox"
+                             GotFocus="SearchTextBox_GotFocus"
+                             LostFocus="SearchTextBox_LostFocus"/>
 
-                    <Button Grid.Column="1" Style="{StaticResource CircleButton}" Content="🔎"/>
+                    <!-- Placeholder Text -->
+                    <TextBlock Text="Freunde suchen"
+                               Foreground="#AAFFFFFF"
+                               FontSize="16"
+                               IsHitTestVisible="False"
+                               VerticalAlignment="Center"
+                               Margin="5,0,0,0"
+                               x:Name="PlaceholderText">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=SearchTextBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Button Grid.Column="1" 
+                            Style="{StaticResource CircleButton}" 
+                            Content="🔎"
+                            Click="Search_Click"/>
                 </Grid>
             </Border>
 
@@ -46,7 +95,7 @@
                     Margin="0,14,0,0"
                     Click="Invite_Click"/>
 
-            <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0" >
+            <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0">
                 <Ellipse Width="70" Height="70" Fill="#22FFFFFF"/>
                 <TextBlock Text="Lade deine Freunde zu einem Duell ein!"
                            Foreground="{StaticResource White}"
@@ -58,7 +107,7 @@
             </StackPanel>
 
             <!-- Overlay Invite -->
-            <Grid x:Name="InviteOverlay" Visibility="Collapsed">
+            <Grid x:Name="InviteOverlay" Visibility="Collapsed" Grid.RowSpan="3">
                 <Border Background="#AA000000"/>
                 <Border Background="#EFFFFFFF" CornerRadius="22"
                         Padding="18" Width="320"

@@ -10,46 +10,211 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Style="{StaticResource CircleButton}" Content="←" Click="Back_Click"/>
-
-        <Border Grid.Row="1" Background="#EFFFFFFF" CornerRadius="26" Padding="18" Margin="0,14,0,12">
-            <TextBlock Text="(Demo Frage) Hier steht später die echte Frage."
-                       Foreground="#FF2B2F6D"
-                       FontSize="22"
-                       FontWeight="Black"
-                       TextWrapping="Wrap"
-                       TextAlignment="Center"/>
-        </Border>
-
-        <Border Grid.Row="2" Background="#33000000" CornerRadius="10" Height="12" Margin="0,0,0,16">
-            <Border Background="{StaticResource Green}" CornerRadius="10" Width="320" HorizontalAlignment="Left"/>
-        </Border>
-
-        <Grid Grid.Row="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <!-- Spieler Bereich: Links = Ich, Mitte = Icon/Badge, Rechts = Gegner -->
+        <Grid Grid.Row="0" Margin="0,10,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" Margin="0,0,10,10"
-                    Style="{StaticResource PillButton}" Background="{StaticResource DarkBtn}"
-                    Height="92" Content="Antwort A" Click="Answer_Click"/>
+            <!-- Mein Spieler (Oben Links) -->
+            <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center">
+                <Ellipse Width="60" Height="60" Fill="#4DD4E8" Margin="0,0,0,8">
+                    <Ellipse.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                    </Ellipse.Effect>
+                </Ellipse>
+                <TextBlock Text="guest#25318401" 
+                           Foreground="{StaticResource White}"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           TextTrimming="CharacterEllipsis"
+                           MaxWidth="100"
+                           Margin="0,0,0,8"
+                           x:Name="PlayerName"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Ellipse Width="16" Height="16" Fill="#33FFFFFF" Margin="0,0,4,0" x:Name="Player1Question1"/>
+                    <Ellipse Width="16" Height="16" Fill="#33FFFFFF" Margin="0,0,4,0" x:Name="Player1Question2"/>
+                    <Ellipse Width="16" Height="16" Fill="#33FFFFFF" x:Name="Player1Question3"/>
+                </StackPanel>
+            </StackPanel>
 
-            <Button Grid.Row="0" Grid.Column="1" Margin="10,0,0,10"
-                    Style="{StaticResource PillButton}" Background="{StaticResource DarkBtn}"
-                    Height="92" Content="Antwort B" Click="Answer_Click"/>
+            <!-- Mitte: Icon/Badge mit Fragennummer -->
+            <Grid Grid.Column="1" Width="80" Height="80" Margin="20,0">
+                <!-- Pokal/Trophy Icon (kann durch Bild ersetzt werden) -->
+                <Ellipse Width="80" Height="80" Fill="#FF8C42">
+                    <Ellipse.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="3" Opacity="0.4"/>
+                    </Ellipse.Effect>
+                </Ellipse>
+                
+                <!-- Fragennummer Badge -->
+                <Border Width="32" Height="32" 
+                        Background="{StaticResource White}" 
+                        CornerRadius="16"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,-5">
+                    <TextBlock Text="1" 
+                               FontSize="18"
+                               FontWeight="Black"
+                               Foreground="#FF2B2F6D"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               x:Name="QuestionNumber"/>
+                </Border>
+            </Grid>
 
-            <Button Grid.Row="1" Grid.Column="0" Margin="0,10,10,0"
-                    Style="{StaticResource PillButton}" Background="{StaticResource DarkBtn}"
-                    Height="92" Content="Antwort C" Click="Answer_Click"/>
+            <!-- Rechter Spieler (GEGNER) -->
+            <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                <!-- Avatar -->
+                <Ellipse Width="70" Height="70" Fill="#4D5B9E" Margin="0,0,0,8">
+                    <Ellipse.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                    </Ellipse.Effect>
+                </Ellipse>
+                
+                <!-- Spielername -->
+                <TextBlock Text="Beliebiger Spieler" 
+                           Foreground="{StaticResource White}"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           TextTrimming="CharacterEllipsis"
+                           MaxWidth="120"
+                           Margin="0,0,0,10"
+                           x:Name="OpponentName"/>
+                
+                <!-- 3 Ellipsen für Fragenstatus -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Ellipse Width="20" Height="20" 
+                             Fill="#33FFFFFF" 
+                             Margin="0,0,5,0"
+                             x:Name="Player2Question1"/>
+                    <Ellipse Width="20" Height="20" 
+                             Fill="#33FFFFFF" 
+                             Margin="0,0,5,0"
+                             x:Name="Player2Question2"/>
+                    <Ellipse Width="20" Height="20" 
+                             Fill="#33FFFFFF"
+                             x:Name="Player2Question3"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
 
-            <Button Grid.Row="1" Grid.Column="1" Margin="10,10,0,0"
-                    Style="{StaticResource PillButton}" Background="{StaticResource DarkBtn}"
-                    Height="92" Content="Antwort D" Click="Answer_Click"/>
+        <!-- Kategorie Banner -->
+        <Border Grid.Row="1" 
+                Background="#66000000" 
+                CornerRadius="20" 
+                Padding="16,8"
+                Margin="0,0,0,16"
+                HorizontalAlignment="Center">
+            <TextBlock Text="Macht &amp; Geld" 
+                       Foreground="{StaticResource White}"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       x:Name="CategoryText"/>
+        </Border>
+
+        <!-- Frage Box -->
+        <Border Grid.Row="2" 
+                Background="#EFFFFFFF" 
+                CornerRadius="26" 
+                Padding="24,20"
+                Margin="0,0,0,16">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="20" ShadowDepth="4" Opacity="0.2"/>
+            </Border.Effect>
+            <TextBlock Text="Wofür steht die Abkürzung &quot;KiK&quot;, nach der ein deutscher Textil-Discounter benannt ist?"
+                       Foreground="#FF2B2F6D"
+                       FontSize="20"
+                       FontWeight="Black"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       LineHeight="28"
+                       x:Name="QuestionText"/>
+        </Border>
+
+        <!-- Antwort-Buttons und Timer -->
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Timer-Balken (30 Sekunden) -->
+            <Border Grid.Row="0" 
+                    Background="#33FFFFFF" 
+                    CornerRadius="10" 
+                    Height="14" 
+                    Margin="0,0,0,20">
+                <Border Background="{StaticResource Green}" 
+                        CornerRadius="10" 
+                        HorizontalAlignment="Left"
+                        x:Name="TimerBar">
+                    <Border.Width>
+                        <Binding ElementName="TimerBar" Path="ActualWidth"/>
+                    </Border.Width>
+                </Border>
+            </Border>
+
+            <!-- Antwort-Buttons Grid -->
+            <Grid Grid.Row="1" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Row="0" Grid.Column="0" 
+                        Margin="0,0,8,12"
+                        Style="{StaticResource PillButton}" 
+                        Background="#4D5B9E"
+                        Height="92" 
+                        Content="Kunde ist König" 
+                        Click="Answer_Click"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        x:Name="AnswerA"/>
+
+                <Button Grid.Row="0" Grid.Column="1" 
+                        Margin="8,0,0,12"
+                        Style="{StaticResource PillButton}" 
+                        Background="#4D5B9E"
+                        Height="92" 
+                        Content="Kleidung im Kreis" 
+                        Click="Answer_Click"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        x:Name="AnswerB"/>
+
+                <Button Grid.Row="1" Grid.Column="0" 
+                        Margin="0,0,8,0"
+                        Style="{StaticResource PillButton}" 
+                        Background="#4D5B9E"
+                        Height="92" 
+                        Content="Kinder in Kleidern" 
+                        Click="Answer_Click"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        x:Name="AnswerC"/>
+
+                <Button Grid.Row="1" Grid.Column="1" 
+                        Margin="8,0,0,0"
+                        Style="{StaticResource PillButton}" 
+                        Background="#4D5B9E"
+                        Height="92" 
+                        Content="Köln im Karneval" 
+                        Click="Answer_Click"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        x:Name="AnswerD"/>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

@@ -62,7 +62,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Background="#00000000" BorderThickness="0" Foreground="{StaticResource White}"
-                    Content="Land/Sprache wählen"/>
+                    Content="AGB"/>
             <Button Grid.Column="1" Background="#00000000" BorderThickness="0" Foreground="{StaticResource White}"
                     Content="Hilfe"/>
         </Grid>
