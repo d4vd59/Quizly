@@ -171,5 +171,18 @@
       <Link>python-backend\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PythonBackend.cs" />
+    <Compile Include="Spieler.cs" />
+    <Compile Include="Kategorie.cs" />
+    <Compile Include="Schwierigkeitsgrad.cs" />
+    <Compile Include="Frage.cs" />
+    <Compile Include="Antwort.cs" />
+    <Compile Include="Spiel.cs" />
+    <Compile Include="Runde.cs" />
+    <Compile Include="Spielkonfiguration.cs" />
+    <Compile Include="enums\Spielmodus.cs" />
+    <Compile Include="enums\Spielstatus.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
