@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Quizly
@@ -13,5 +8,19 @@ namespace Quizly
     /// </summary>
     public partial class App : Application
     {
+        // ✅ Globale Backend-Instanz
+        public static PythonBackend Backend { get; private set; }
+        
+        // ✅ Session-Daten
+        public static string CurrentUser { get; set; }
+        public static string AuthToken { get; set; }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            
+            // ✅ Backend beim App-Start initialisieren
+            Backend = new PythonBackend();
+        }
     }
 }

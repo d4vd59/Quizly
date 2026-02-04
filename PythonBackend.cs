@@ -209,31 +209,30 @@ namespace Quizly
             return await RunPythonAsync("get_game_state", stateId.ToString());
         }
 
-        // ===== GAMEPLAY =====
+        // ===== GAMEPLAY - UPDATED! =====
 
         /// <summary>
-        /// Holt einen zufällig ausgewählten Benutzer (für Matchmaking)
+        /// Erstellt ein neues Single-Player-Spiel
         /// </summary>
-        public async Task<string> GetRandomUserAsync()
+        /// <param name="userId">User-ID</param>
+        /// <param name="difficulty">Schwierigkeitsgrad (1-5)</param>
+        /// <returns>JSON mit match_id</returns>
+        public async Task<string> CreateSingleMatchAsync(int userId, int difficulty)
         {
-            return await RunPythonAsync("get_random_user");
+            return await RunPythonAsync("create_single_match", userId.ToString(), difficulty.ToString());
         }
 
         /// <summary>
-        /// Holt Spiele eines Benutzers
+        /// Erstellt ein neues Multiplayer-Duell
         /// </summary>
-        /// <param name="user">User-ID, Nickname oder Email</param>
-        /// <param name="matchType">
-        /// 'all', 'running', 'running/single', 'running/duel', 
-        /// 'ended', 'ended/single', 'ended/duel'
-        /// </param>
-        /// <param name="limit">Optional: Begrenzt Anzahl der Ergebnisse</param>
-        public async Task<string> GetUserMatchesAsync(string user, string matchType = "all", int? limit = null)
+        /// <param name="userId">User-ID</param>
+        /// <param name="difficulty">Schwierigkeitsgrad (1-5)</param>
+        /// <param name="opponentIds">Liste der Gegner-IDs</param>
+        /// <returns>JSON mit match_id</returns>
+        public async Task<string> CreateDuelMatchAsync(int userId, int difficulty, System.Collections.Generic.List<int> opponentIds)
         {
-            if (limit.HasValue)
-                return await RunPythonAsync("get_user_matches", user, matchType, limit.Value.ToString());
-            
-            return await RunPythonAsync("get_user_matches", user, matchType);
+            var opponentsJson = JsonSerializer.Serialize(opponentIds);
+            return await RunPythonAsync("create_duel_match", userId.ToString(), difficulty.ToString(), opponentsJson);
         }
 
         // ===== AVATAR MANAGEMENT =====
