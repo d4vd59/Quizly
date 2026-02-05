@@ -95,16 +95,24 @@ namespace Quizly.Views
                 var backend = new PythonBackend();
                 string resultJson = await backend.SignupAsync(email, username, name, pw);
                 
-                // Parse JSON-Antwort (erwartet z.B. {"success": true, "user_id": 123} oder {"error": "Nachricht"})
+                // ✅ DEBUG: JSON-Antwort ausgeben
+                System.Diagnostics.Debug.WriteLine($"Signup API Response: {resultJson}");
+                
                 var result = JObject.Parse(resultJson);
-                if (result["error"] != null)
+                
+                // ✅ NEU: Prüfe auf Erfolg (user_id vorhanden)
+                if (result["user_id"] != null)
                 {
-                    ErrorText.Text = result["error"].ToString();
-                    return;
+                    // Erfolg: Hinweis auf E-Mail-Verifizierung geben
+                    ErrorText.Text = "Registrierung erfolgreich! Bitte E-Mail verifizieren, bevor du dich einloggst.";
+                    // Optional: Token speichern oder Verifizierungs-UI öffnen
+                    // z.B. _main.NavigateTo(new EmailVerificationView(result["email_validation_token"].ToString()));
+                    return;  // Bleibe auf der Seite, bis verifiziert
                 }
                 
-                // Erfolg: Navigiere zu Home
-                _main.GoHome();
+                // ✅ NEU: Bei Fehlern zeige Message oder error
+                string errorMsg = result["Message"]?.ToString() ?? result["error"]?.ToString() ?? "Unbekannter Registrierungsfehler";
+                ErrorText.Text = errorMsg;
             }
             catch (Exception ex)
             {
