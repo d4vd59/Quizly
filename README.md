@@ -19,17 +19,21 @@ Befolge diese Schritte, um das Projekt lokal auszuführen:
 
 1.  **Voraussetzungen:**
     * Visual Studio installieren (inklusive der Workload **.NET Desktop Development**).
+      
 2.  **Repository klonen:**
     ```bash
     git clone https://github.com/d4vd59/Quizly
     ```
+    
 3.  **Umgebungsvariabeln konfigurieren:**
     * Im Projektverzeichnis befindet sich eine Datei env.example.
     * Nenne diese Datei um in ".env".
     * ⚠️ Wichtig: Ohne korrekt konfigurierte .env-Datei kann die Anwendung nicht gestartet werden.
+      
 4.  **Projekt öffnen:**
     * Öffne die `.sln`-Datei in Visual Studio.
     * Warte, bis alle NuGet-Pakete automatisch wiederhergestellt wurden.
+      
 5.  **Starten:**
     * Drücke `F5` oder klicke auf **Starten**, um die Anwendung auszuführen.
 
