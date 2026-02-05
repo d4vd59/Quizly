@@ -3,6 +3,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json.Linq;
 
 namespace Quizly.Views
 {
@@ -55,7 +56,7 @@ namespace Quizly.Views
             }
         }
 
-        private void Create_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void Create_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ErrorText.Text = "";
 
@@ -88,9 +89,27 @@ namespace Quizly.Views
                 return;
             }
 
-            // ✅ Frontend-only: wir tun so als ob Registrierung ok ist
-            // Später: hier Backend aufrufen (Python API)
-            _main.GoHome();
+            // ✅ NEU: Backend-Aufruf für echte Registrierung
+            try
+            {
+                var backend = new PythonBackend();
+                string resultJson = await backend.SignupAsync(email, username, name, pw);
+                
+                // Parse JSON-Antwort (erwartet z.B. {"success": true, "user_id": 123} oder {"error": "Nachricht"})
+                var result = JObject.Parse(resultJson);
+                if (result["error"] != null)
+                {
+                    ErrorText.Text = result["error"].ToString();
+                    return;
+                }
+                
+                // Erfolg: Navigiere zu Home
+                _main.GoHome();
+            }
+            catch (Exception ex)
+            {
+                ErrorText.Text = $"Registrierungsfehler: {ex.Message}";
+            }
         }
     }
 }

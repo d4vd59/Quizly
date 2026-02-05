@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
+using Newtonsoft.Json.Linq;
 
 namespace Quizly.Views
 {
@@ -12,23 +14,46 @@ namespace Quizly.Views
             _main = main;
         }
 
-        private void Login_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void Login_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ErrorText.Text = "";
 
-            var email = EmailBox.Text.Trim();
+            var user = EmailBox.Text.Trim();  // Oder UsernameBox, je nach Feld
             var pw = PasswordBox.Password;
 
-            // GUI-only: minimal check
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(pw))
+            if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(pw))
             {
                 ErrorText.Text = "Bitte E-Mail und Passwort eingeben.";
                 return;
             }
 
-            // ✅ Frontend-only: Wir tun so als ob Login ok ist
-            // Später: hier Backend aufrufen und echte Prüfung machen
-            _main.GoHome();
+            // ✅ NEU: Backend-Aufruf für echten Login
+            try
+            {
+                var backend = new PythonBackend();
+                string resultJson = await backend.SigninAsync(user, pw);
+                
+                // ✅ DEBUG: JSON-Antwort ausgeben
+                System.Diagnostics.Debug.WriteLine($"API Response: {resultJson}");
+                
+                var result = JObject.Parse(resultJson);
+        
+                // ✅ NEU: Prüfe zuerst auf Erfolg (X-Auth-Token vorhanden)
+                if (result["X-Auth-Token"] != null)
+                {
+                    // Erfolg: Navigiere zu Home
+                    _main.GoHome();
+                    return;
+                }
+        
+                // ✅ NEU: Bei Fehlern zeige Message oder error
+                string errorMsg = result["Message"]?.ToString() ?? result["error"]?.ToString() ?? "Unbekannter Fehler";
+                ErrorText.Text = errorMsg;
+            }
+            catch (Exception ex)
+            {
+                ErrorText.Text = $"Login-Fehler: {ex.Message}";
+            }
         }
 
         private void Register_Click(object sender, System.Windows.RoutedEventArgs e)
