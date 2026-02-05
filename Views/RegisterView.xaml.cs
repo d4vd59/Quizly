@@ -100,14 +100,12 @@ namespace Quizly.Views
                 
                 var result = JObject.Parse(resultJson);
                 
-                // ✅ NEU: Prüfe auf Erfolg (user_id vorhanden)
-                if (result["user_id"] != null)
+                // ✅ NEU: Prüfe auf Erfolg (Message == "User created successfully")
+                if (result["Message"]?.ToString() == "User created successfully")
                 {
-                    // Erfolg: Hinweis auf E-Mail-Verifizierung geben
-                    ErrorText.Text = "Registrierung erfolgreich! Bitte E-Mail verifizieren, bevor du dich einloggst.";
-                    // Optional: Token speichern oder Verifizierungs-UI öffnen
-                    // z.B. _main.NavigateTo(new EmailVerificationView(result["email_validation_token"].ToString()));
-                    return;  // Bleibe auf der Seite, bis verifiziert
+                    // Erfolg: Direkt zu Home weiterleiten
+                    _main.GoHome();
+                    return;
                 }
                 
                 // ✅ NEU: Bei Fehlern zeige Message oder error
