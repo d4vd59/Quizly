@@ -207,9 +207,12 @@
   <ItemGroup>
     <Folder Include="python-backend\src\api\" />
     <Folder Include="python-backend\src\models\" />
-    <Folder Include="python-backend\src\services\" />
+    <Folder Include="python-backend\src\services\__pycache__\" />
     <Folder Include="python-backend\src\utils\" />
     <Folder Include="python-backend\tests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
