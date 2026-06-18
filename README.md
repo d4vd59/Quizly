@@ -39,4 +39,26 @@ Befolge diese Schritte, um das Projekt lokal auszuführen:
 
 ---
 
-*Entwickelt mit ❤️ in C# und Python.*
+## 📱 Android-Client
+
+Im Verzeichnis `Android/` befindet sich ein natives Android-Frontend (Kotlin + Jetpack Compose) mit denselben Kernfunktionen wie der Desktop-Client. Es spricht direkt dieselbe externe API an (`https://quizzapp.game-creators.de`), die auch das Python-Backend verwendet — es wird kein eigenes Backend benötigt.
+
+**Voraussetzungen:**
+* Android Studio (oder JDK 17+ und die Android SDK Command-Line-Tools).
+
+**Setup:**
+1.  Öffne den Ordner `Android/` in Android Studio, oder baue per Kommandozeile:
+    ```bash
+    cd Android
+    ./gradlew assembleDebug
+    ```
+2.  Zum Installieren auf einem verbundenen Gerät/Emulator:
+    ```bash
+    ./gradlew installDebug
+    ```
+
+*Hinweis: Einige Gameplay-Endpunkte (Matchdetails, Rundenfragen, Antwort-Übermittlung, Einladungen, Bestenliste) sind in der externen API nicht offiziell dokumentiert ("speculative" im Code markiert) und können bei Abweichungen vom angenommenen Format clientseitig elegant abgefangen werden.*
+
+---
+
+*Entwickelt mit ❤️ in C#, Python und Kotlin.*

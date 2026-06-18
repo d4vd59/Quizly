@@ -370,3 +370,16 @@ venv/
 
 # Python Backend - Auth Token (NIEMALS committen!)
 python-backend/src/.auth_token
+
+# Android / Gradle (Android/ subdirectory)
+Android/.gradle/
+Android/build/
+Android/app/build/
+Android/captures/
+Android/.idea/
+Android/local.properties
+Android/.cxx/
+Android/*.iml
+Android/.kotlin/
+Android/app/release/
+Android/app/debug/

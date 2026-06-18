@@ -1,0 +1,12 @@
+<resources>
+    <color name="quizly_bg_top">#FF1EA7E9</color>
+    <color name="quizly_bg_mid">#FF4D5BE0</color>
+    <color name="quizly_bg_bottom">#FF3A43B9</color>
+    <color name="quizly_white">#FFFFFFFF</color>
+    <color name="quizly_muted">#FFD9E3FF</color>
+    <color name="quizly_green">#FF22C55E</color>
+    <color name="quizly_blue_btn">#FF3B82F6</color>
+    <color name="quizly_dark_btn">#FF2B2F6D</color>
+    <color name="quizly_gold">#FFFFC857</color>
+    <color name="quizly_orange">#FFFF8C42</color>
+</resources>
