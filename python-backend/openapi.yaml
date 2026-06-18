@@ -1,0 +1,121 @@
+openapi: 3.0.0
+info:
+  title: Quizly API
+  version: 1.0.0
+  description: REST API für die Quizly Quiz-Anwendung
+
+servers:
+  - url: https://quizzapp.game-creators.de
+
+paths:
+
+  /health:
+    get:
+      summary: Health Check
+      responses:
+        '200':
+          description: Server Status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+
+  /example:
+    get:
+      summary: Example Route
+      responses:
+        '200':
+          description: Example Response
+
+  /user/{user}/signin:
+    get:
+      summary: User Login
+      parameters:
+        - in: path
+          name: user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+
+  /user/{email}/signup:
+    put:
+      summary: User Registration
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nickname:
+                  type: string
+                fullname:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User created
+
+  /user/{user}:
+    get:
+      summary: Get User
+    patch:
+      summary: Update User
+
+  /category:
+    get:
+      summary: Get Categories
+
+  /category/{id}:
+    get:
+      summary: Get Category by ID
+
+  /difficulty:
+    get:
+      summary: Get Difficulties
+
+  /gamemode:
+    get:
+      summary: Get Game Modes
+
+  /gamestate:
+    get:
+      summary: Get Game States
+
+  /user/{user}/match:
+    get:
+      summary: Get User Matches
+
+  /user/{user}/match/single:
+    post:
+      summary: Create Single Match
+
+  /user/{user}/match/duel:
+    post:
+      summary: Create Duel Match
+
+  /leaderboard:
+    get:
+      summary: Get Leaderboard
